@@ -8,8 +8,8 @@ class MyScalatraServlet extends BeardedScalatraStack {
   get("/") {
     <html>
       <body>
-        <h1>Hello, world!</h1>
-        Say <a href="hello-scalate">hello to Scalate</a>.
+        <h1>Hello, bearded world!</h1>
+        Say <a href="hello-scalate">hello to Scalatra!</a>.
       </body>
     </html>
   }
