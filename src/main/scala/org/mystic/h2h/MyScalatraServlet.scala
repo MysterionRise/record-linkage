@@ -8,8 +8,8 @@ class MyScalatraServlet extends H2hTestAppStack {
   get("/") {
     <html>
       <body>
-        <h1>Hello, world!</h1>
-        Say <a href="hello-scalate">hello to Scalate</a>.
+        <h1>Hello, H2H Fantasy!</h1>
+        Say <a href="hello-scalate">hello to H2H Fantasy</a>.
       </body>
     </html>
   }
