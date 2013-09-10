@@ -13,5 +13,5 @@ class MyScalatraServlet extends H2hTestAppStack {
       </body>
     </html>
   }
-  
+
 }
