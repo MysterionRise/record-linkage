@@ -1,0 +1,10 @@
+<%
+  import org.mystic.h2h.fantasy.LeagueManipulation
+  val leagues = LeagueManipulation.writeHtmlLeagues
+  val count = LeagueManipulation.numberOfLeagues
+%>
+<ul>
+#for (i <- 0 until count)
+  <li><a href=${leagues(i)._2}>${leagues(i)._1}</a></li>
+#end
+</ul>

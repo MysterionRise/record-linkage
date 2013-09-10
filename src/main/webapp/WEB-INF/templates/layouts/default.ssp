@@ -1,0 +1,14 @@
+<%@ var body: String %>
+<%@ var title: String = "H2H Fantasy Game on Sports.ru" %>
+<%@ var head: String = "" %>
+<html>
+<head>
+  <title>${title}</title>
+</head>
+<body>
+  <p>List of current H2H Fantasy Games</p>
+
+  ${unescape(body)}
+
+</body>
+</html>

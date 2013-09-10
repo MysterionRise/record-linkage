@@ -1,6 +1,8 @@
 package org.mystic.h2h
 
 
+import org.mystic.h2h.fantasy.LeagueManipulation
+
 class H2HMainServlet extends H2hTestAppStack {
 
   get("/h2h-nba") {
@@ -14,16 +16,12 @@ class H2HMainServlet extends H2hTestAppStack {
   }
 
   get("/") {
-    <html>
-      <body>
-        <h2>List of current H2H Fantasy Games</h2>
-        <ul>
-          <li>
-            <a href="/h2h-nba">H2H NBA 2013/2014</a>
-          </li>
-        </ul>
-      </body>
-    </html>
+    contentType="text/html"
+    ssp("/index")
+  }
+
+  notFound {
+    <h1>Not found. Bummer.</h1>
   }
 
 }
