@@ -6,7 +6,7 @@
   <title>${title}</title>
 </head>
 <body>
-  <p>List of current H2H Fantasy Games</p>
+  <h2>List of current H2H Fantasy Games</h2>
 
   ${unescape(body)}
 
