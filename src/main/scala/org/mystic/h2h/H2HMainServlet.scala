@@ -15,6 +15,15 @@ class H2HMainServlet extends H2hTestAppStack {
     </html>
   }
 
+  get("/h2h-khl") {
+    <html>
+      <body>
+        <h2>This is main page for KHL H2H on sports.ru</h2>
+        <a href="http://www.sports.ru/fantasy/hockey/tournament/107.html">Текущее Fantasy страница</a>
+      </body>
+    </html>
+  }
+
   get("/") {
     contentType="text/html"
     ssp("/index")
