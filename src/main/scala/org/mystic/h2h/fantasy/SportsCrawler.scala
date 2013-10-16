@@ -1,4 +1,4 @@
-package org.mystic.sports.h2h
+package org.mystic.h2h.fantasy
 
 import collection.mutable.HashMap
 import org.slf4j.LoggerFactory

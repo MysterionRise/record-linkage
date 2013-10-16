@@ -1,4 +1,4 @@
-package org.mystic.sports.h2h
+package org.mystic.h2h.fantasy
 
 import com.mongodb.casbah.MongoConnection
 import com.mongodb.casbah.commons.MongoDBObject

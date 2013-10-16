@@ -6,7 +6,6 @@
   <title>${title}</title>
 </head>
 <body>
-  <h2>List of current H2H KHL player</h2>
 
   ${unescape(body)}
 

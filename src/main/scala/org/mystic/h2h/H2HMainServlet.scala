@@ -15,7 +15,7 @@ class H2HMainServlet extends H2hTestAppStack {
 
   get("/h2h-khl") {
     contentType = "text/html"
-    ssp("/khl", "layout" -> "khl.ssp")
+    ssp("/khl", "layout" -> "WEB-INF/templates/layouts/khl.ssp", "leagueName" -> "КХЛ", "leagueURI" -> "http://www.sports.ru/fantasy/hockey/tournament/ratings/leaders/107.html")
   }
 
   get("/") {

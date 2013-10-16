@@ -1,6 +1,5 @@
-package org.mystic.fix.server
+package org.mystic.h2h.fantasy
 
-import org.mystic.sports.h2h.{DBGateway, SportsCrawler}
 import org.slf4j.LoggerFactory
 
 /**
