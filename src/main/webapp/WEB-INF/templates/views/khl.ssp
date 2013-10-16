@@ -1,0 +1,6 @@
+<%
+   import org.mystic.sports.h2h.PlayersCrawler
+   val count = PlayersCrawler.playersCount
+%>
+
+<p>${count}</p>
