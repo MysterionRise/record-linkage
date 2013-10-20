@@ -2,8 +2,8 @@
 <%@ val leagueURI: String %>
 <%
    import org.mystic.h2h.fantasy.PlayersCrawler
-   val count = PlayersCrawler.playersCount(leagueURI)
-   val players = PlayersCrawler.getAllPlayers(leagueURI)
+   val players = PlayersCrawler.getAllTeams(leagueURI)
+   val count = players.length
 %>
 
 <h2>Fantasy ${leagueName}</h2>
@@ -11,7 +11,7 @@
 <h4>Игроки</h4>
 <ul>
 #for (i <- 0 until count)
-  <li>${players(i)}</li>
+  <li><a href=${players(i)._1}>${players(i)._1}</a></li>
 #end
 </ul>
 
