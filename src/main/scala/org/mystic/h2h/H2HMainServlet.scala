@@ -17,6 +17,20 @@ class H2HMainServlet extends H2hTestAppStack {
     contentType = "text/html"
     ssp("/khl",
       "layout" -> "WEB-INF/templates/layouts/khl.ssp",
+      "pageSize" -> 50,
+      "currentPage" -> 0,
+      "uri" -> "/h2h-khl/",
+      "leagueName" -> "КХЛ",
+      "leagueURI" -> "http://www.sports.ru/fantasy/hockey/tournament/ratings/leaders/107.html")
+  }
+
+  get("/h2h-khl/:id") {
+    contentType = "text/html"
+    ssp("/khl",
+      "layout" -> "WEB-INF/templates/layouts/khl.ssp",
+      "pageSize" -> 50,
+      "currentPage" -> Integer.parseInt(params("id")),
+      "uri" -> "/h2h-khl/",
       "leagueName" -> "КХЛ",
       "leagueURI" -> "http://www.sports.ru/fantasy/hockey/tournament/ratings/leaders/107.html")
   }

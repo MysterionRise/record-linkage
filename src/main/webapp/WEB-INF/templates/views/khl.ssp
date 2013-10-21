@@ -1,5 +1,8 @@
 <%@ val leagueName: String %>
 <%@ val leagueURI: String %>
+<%@ val pageSize: Int %>
+<%@ val currentPage: Int %>
+<%@ val uri: String %>
 <%
    import org.mystic.h2h.fantasy.PlayersCrawler
    val players = PlayersCrawler.getAllTeams(leagueURI)
@@ -10,8 +13,11 @@
 
 <h4>Игроки</h4>
 <ul>
-#for (i <- 0 until count)
+#for (i <- 50 * currentPage until 50 * currentPage + pageSize - 1)
   <li><a href=${players(i)._1}>${players(i)._1}</a></li>
 #end
 </ul>
-
+#if (currentPage != 0)
+<a href=${uri}${currentPage-1}>Previous page</a>
+#end
+<a href=${uri}${currentPage+1}>Next page</a>
