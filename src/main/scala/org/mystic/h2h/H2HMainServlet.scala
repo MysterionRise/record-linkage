@@ -3,14 +3,17 @@ package org.mystic.h2h
 
 class H2HMainServlet extends H2hTestAppStack {
 
-  get("/h2h-nba") {
-    <html>
-      <body>
-        <h2>This is main page for NBA H2H on sports.ru</h2>
-        Новый сезон NBA еще не начался, так что пока еще есть время для подготовки. А так же чествования чемпиона H2H NBA 2012/2013 -
-        <a href="http://www.sports.ru/profile/28147397/">tan01</a>
-      </body>
-    </html>
+  get("/h2h-nba-div1") {
+    contentType = "text/html"
+    ssp("/league",
+      "layout" -> "WEB-INF/templates/layouts/khl.ssp",
+      "leagueName" -> "NBA",
+      "leagueURI" -> "http://www.sports.ru/fantasy/basketball/league/9826.html")
+  }
+
+
+  get("/h2h-nba-div2") {
+    <h1>Not found. Bummer.</h1>
   }
 
   get("/h2h-khl") {
