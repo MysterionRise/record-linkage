@@ -1,5 +1,5 @@
 <%@ var body: String %>
-<%@ var title: String = "H2H KHL Game on Sports.ru" %>
+<%@ var title: String = "H2H on Sports.ru" %>
 <%@ var head: String = "" %>
 <html>
 <head>
