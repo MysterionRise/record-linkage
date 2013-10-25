@@ -8,7 +8,7 @@
 
 <h2>Fantasy ${leagueName}</h2>
 
-<h4>Игроки</h4>
+<h4>Игроки (${count})</h4>
 <ul>
 #for (i <- 0  until count)
   <li>

@@ -32,7 +32,8 @@ object PlayersCrawler {
               val cost = teamCrawler.costOfTeam(teamURI)
               val balance = teamCrawler.balanceOfTeam(teamURI)
               val totalCost = Integer.parseInt(cost.substring(4, cost.length - 5)) + Integer.parseInt(balance.substring(4, balance.length - 5))
-              teams.+=((teamURI, teamName, null, null, totalCost))
+              val userName = teamCrawler.userName(teamURI)
+              teams.+=((teamURI, teamName, null, userName, totalCost))
               // teamURI, teamName, playerURI, playerName, score
               len += 1
             }
@@ -64,8 +65,9 @@ object PlayersCrawler {
             val teamName = teamCrawler.nameOfTeam(teamURI)
             val cost = teamCrawler.costOfTeam(teamURI)
             val balance = teamCrawler.balanceOfTeam(teamURI)
+            val userName = teamCrawler.userName(teamURI)
             val totalCost = Integer.parseInt(cost.substring(4, cost.length - 5)) + Integer.parseInt(balance.substring(4, balance.length - 5))
-            teams.+=((teamURI, teamName, null, null, totalCost.toString))
+            teams.+=((teamURI, teamName, null, userName, totalCost.toString))
             // teamURI, teamName, playerURI, playerName, score
           }
         }

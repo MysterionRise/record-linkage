@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory
  * @author mysterion
  *         Crawling from sports.ru
  */
+//@todo global todo, need to refactor this parser to use HtmlCleaner, or some SAX-style parser, not Scaner
 class TeamParser {
 
   var map = new HashMap[String, Int]()
@@ -20,12 +21,10 @@ class TeamParser {
 
   def netParse(sUrl: String): Unit = {
     val name: String = userName(sUrl)
-    //nameOfTeam(sUrl)
     val cost: String = costOfTeam(sUrl)
     val bal: String = balanceOfTeam(sUrl)
     val totalCost = Integer.parseInt(cost.substring(4, cost.length - 5)) + Integer.parseInt(bal.substring(4, bal.length - 5))
     map.put(name, totalCost)
-    //log.info(name + " " + totalCost.toString)
   }
 
   def userName(urlstring: String): String = {
