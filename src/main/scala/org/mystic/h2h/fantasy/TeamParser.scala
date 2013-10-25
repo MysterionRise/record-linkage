@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory
  * @author mysterion
  *         Crawling from sports.ru
  */
-class SportsCrawler {
+class TeamParser {
 
   var map = new HashMap[String, Int]()
 
@@ -42,15 +42,16 @@ class SportsCrawler {
     null
   }
 
-  def nameOfTeam(urlstring: String): Unit = {
+  def nameOfTeam(urlstring: String): String = {
     val url = new java.net.URL(urlstring)
     val scan = new java.util.Scanner(url.openStream)
     while (scan.hasNext) {
       val s = scan.nextLine
       if (s.contains("<title>")) {
-        logger.info(s.substring(7))
+        return s.substring(7, s.length - ": профиль - Фэнтези - Sports.ru</title>".length)
       }
     }
+    null
   }
 
   def costOfTeam(urlstring: String): String = {

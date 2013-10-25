@@ -10,11 +10,12 @@ object PlayersCrawler {
   val logger = LoggerFactory.getLogger(getClass)
   val pagination = "?p="
 
-  def getAllTeams(leagueURI: String): List[(String, String, Int)] = {
-    var teams = new ListBuffer[(String, String, Int)]
+  def getAllTeams(leagueURI: String): List[(String, String, String, String, Int)] = {
+    var teams = new ListBuffer[(String, String, String, String, Int)]
     val cleaner = new HtmlCleaner
     var i = 1
     var flag = true
+    val teamCrawler = new TeamParser
     while (flag) {
       var len = 0
       val rootNode = cleaner.clean(new URL(leagueURI + pagination + i))
@@ -27,7 +28,12 @@ object PlayersCrawler {
             val childClassType = childElem.getAttributeByName("class")
             if (childClassType != null && childClassType.equalsIgnoreCase("bold")) {
               val teamURI = "http://sports.ru" + childElem.getAttributeByName("href")
-              teams.+=((teamURI, null, 0))
+              val teamName = teamCrawler.nameOfTeam(teamURI)
+              val cost = teamCrawler.costOfTeam(teamURI)
+              val balance = teamCrawler.balanceOfTeam(teamURI)
+              val totalCost = Integer.parseInt(cost.substring(4, cost.length - 5)) + Integer.parseInt(balance.substring(4, balance.length - 5))
+              teams.+=((teamURI, teamName, null, null, totalCost))
+              // teamURI, teamName, playerURI, playerName, score
               len += 1
             }
           }
@@ -41,11 +47,12 @@ object PlayersCrawler {
   }
 
 
-  def getAllTeamsInLeague(leagueURI: String): List[(String, String, Int)] = {
-    var teams = new ListBuffer[(String, String, Int)]
+  def getAllTeamsInLeague(leagueURI: String): List[(String, String, String, String, String)] = {
+    var teams = new ListBuffer[(String, String, String, String, String)]
     val cleaner = new HtmlCleaner
     val rootNode = cleaner.clean(new URL(leagueURI))
     val elements = rootNode.getElementsByName("td", true)
+    val teamCrawler = new TeamParser
     for (elem <- elements) {
       val classType = elem.getAttributeByName("class")
       if (classType != null && classType.equalsIgnoreCase("name-td alLeft")) {
@@ -54,7 +61,12 @@ object PlayersCrawler {
           val childClassType = childElem.getAttributeByName("class")
           if (childClassType != null && childClassType.equalsIgnoreCase("bold")) {
             val teamURI = "http://sports.ru" + childElem.getAttributeByName("href")
-            teams.+=((teamURI, null, 0))
+            val teamName = teamCrawler.nameOfTeam(teamURI)
+            val cost = teamCrawler.costOfTeam(teamURI)
+            val balance = teamCrawler.balanceOfTeam(teamURI)
+            val totalCost = Integer.parseInt(cost.substring(4, cost.length - 5)) + Integer.parseInt(balance.substring(4, balance.length - 5))
+            teams.+=((teamURI, teamName, null, null, totalCost.toString))
+            // teamURI, teamName, playerURI, playerName, score
           }
         }
       }
