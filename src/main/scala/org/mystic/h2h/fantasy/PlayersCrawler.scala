@@ -30,7 +30,7 @@ object PlayersCrawler {
               val teamURI = "http://sports.ru" + childElem.getAttributeByName("href")
               val all = teamCrawler.getItAll(teamURI)
               val cost = all(4)
-              val balance =  all(5)
+              val balance = all(5)
               val teamName = all(1)
               val totalCost = Integer.parseInt(cost.substring(4, cost.length - 5)) + Integer.parseInt(balance.substring(4, balance.length - 5))
               val userName = all(3)
@@ -65,11 +65,16 @@ object PlayersCrawler {
             val teamURI = "http://sports.ru" + childElem.getAttributeByName("href")
             val all = teamCrawler.getItAll(teamURI)
             val cost = all(4)
-            val balance =  all(5)
+            val balance = all(5)
             val teamName = all(1)
-            val totalCost = Integer.parseInt(cost.substring(4, cost.length - 5)) + Integer.parseInt(balance.substring(4, balance.length - 5))
             val userName = all(3)
-            teams.+=((teamURI, teamName, null, userName, totalCost.toString))
+            if (cost != null && balance != null) {
+              val totalCost = Integer.parseInt(cost.substring(4, cost.length - 5)) + Integer.parseInt(balance.substring(4, balance.length - 5))
+              teams.+=((teamURI, teamName, null, userName, totalCost.toString))
+            } else {
+              teams.+=((teamURI, teamName, null, userName, null))
+            }
+
             // teamURI, teamName, playerURI, playerName, score
           }
         }
