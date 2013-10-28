@@ -28,13 +28,14 @@ object PlayersCrawler {
             val childClassType = childElem.getAttributeByName("class")
             if (childClassType != null && childClassType.equalsIgnoreCase("bold")) {
               val teamURI = "http://sports.ru" + childElem.getAttributeByName("href")
-              val teamName = teamCrawler.nameOfTeam(teamURI)
-              val cost = teamCrawler.costOfTeam(teamURI)
-              val balance = teamCrawler.balanceOfTeam(teamURI)
+              val all = teamCrawler.getItAll(teamURI)
+              val cost = all(4)
+              val balance =  all(5)
+              val teamName = all(1)
               val totalCost = Integer.parseInt(cost.substring(4, cost.length - 5)) + Integer.parseInt(balance.substring(4, balance.length - 5))
-              val userName = teamCrawler.userName(teamURI)
+              val userName = all(3)
               teams.+=((teamURI, teamName, null, userName, totalCost))
-              // teamURI, teamName, playerURI, playerName, score
+              // teamURI, teamName, playerURI, playerName, cost, balance
               len += 1
             }
           }
@@ -62,11 +63,12 @@ object PlayersCrawler {
           val childClassType = childElem.getAttributeByName("class")
           if (childClassType != null && childClassType.equalsIgnoreCase("bold")) {
             val teamURI = "http://sports.ru" + childElem.getAttributeByName("href")
-            val teamName = teamCrawler.nameOfTeam(teamURI)
-            val cost = teamCrawler.costOfTeam(teamURI)
-            val balance = teamCrawler.balanceOfTeam(teamURI)
-            val userName = teamCrawler.userName(teamURI)
+            val all = teamCrawler.getItAll(teamURI)
+            val cost = all(4)
+            val balance =  all(5)
+            val teamName = all(1)
             val totalCost = Integer.parseInt(cost.substring(4, cost.length - 5)) + Integer.parseInt(balance.substring(4, balance.length - 5))
+            val userName = all(3)
             teams.+=((teamURI, teamName, null, userName, totalCost.toString))
             // teamURI, teamName, playerURI, playerName, score
           }
