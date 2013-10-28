@@ -14,7 +14,7 @@ class TeamParser {
 
   def getItAll(urlstring: String): Array[String] = {
     val url = new java.net.URL(urlstring)
-    val scan = new java.util.Scanner(url.openStream)
+    val scan = new java.util.Scanner(url.openStream, "UTF-8")
     val result = new Array[String](6)
     while (scan.hasNext) {
       val s = scan.nextLine
