@@ -11,6 +11,7 @@ class ScalatraBootstrap extends LifeCycle {
   val logger = LoggerFactory.getLogger(getClass)
   val cpds = new ComboPooledDataSource
   cpds.setJdbcUrl(System.getenv("HEROKU_POSTGRESQL_AQUA_URL"))
+  cpds.setDriverClass("")
   logger.info("Created c3p0 connection pool")
 
   // Get a handle to an ActorSystem and a refere
