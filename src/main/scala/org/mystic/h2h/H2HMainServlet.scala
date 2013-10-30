@@ -8,7 +8,7 @@ class H2HMainServlet extends H2hTestAppStack with SessionSupport
 with DatabaseSessionSupport
 with ScalateSupport
 with MethodOverride
-with FlashMapSupport git
+with FlashMapSupport
   {
 
     get("/h2h-nba-div1") {
