@@ -2,6 +2,8 @@ package org.mystic.h2h
 
 import scala.slick.session.Database
 import scala.slick.driver.PostgresDriver.simple._
+import Database.threadLocalSession
+import org.mystic.h2h.fantasy.Players
 
 
 class H2HMainServlet extends H2hTestAppStack {
