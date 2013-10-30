@@ -10,7 +10,7 @@ class Player(val id: Long, val name: String, val cost: Int) extends ScalatraReco
 
   def this() = this(0, "default name", 0)
 
-  def songs = from(PlayersDB.players)(s => where(s.id === id) select (s))
+  override def toString: String = "id: " + id + " name: " + name + " cost: " + cost
 }
 
 object PlayersDB extends Schema {
