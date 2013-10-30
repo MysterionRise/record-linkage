@@ -1,10 +1,17 @@
 package org.mystic.h2h
 
 import scala.slick.session.Database
-import org.mystic.h2h.fantasy.Players
+import scala.slick.direct.AnnotationMapper.{column, table}
+import scala.slick.direct.Queryable
 
 
-class H2HMainServlet(db: Database) extends H2hTestAppStack {
+class H2HMainServlet extends H2hTestAppStack {
+
+
+  @table("PLAYERS") case class Players(
+                                        @column("PLAYER_NAME") name: String,
+                                        @column("COST") cost: Int
+                                        )
 
   get("/h2h-nba-div1") {
     contentType = "text/html"
@@ -24,9 +31,13 @@ class H2HMainServlet(db: Database) extends H2hTestAppStack {
   }
 
   get("/db") {
-    db withSession {
-      println("Players:")
-      println(Players.*.toString())
+    val players = Queryable[Players]
+    Database.forURL(System.getenv("HEROKU_POSTGRESQL_AQUA_URL"), driver = "org.postgresql.Driver") withSession {
+      val l = for {
+        c <- players if c.cost == 0
+      //                       ^ comparing Int to Int!
+      } yield (c.name, c.cost)
+      println(l.length)
     }
   }
 
