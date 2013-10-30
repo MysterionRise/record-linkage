@@ -4,6 +4,7 @@ import scala.slick.session.Database
 import scala.slick.driver.PostgresDriver.simple._
 import Database.threadLocalSession
 import org.mystic.h2h.fantasy.Players
+import java.net.URL
 
 
 class H2HMainServlet extends H2hTestAppStack {
@@ -26,7 +27,13 @@ class H2HMainServlet extends H2hTestAppStack {
   }
 
   get("/db") {
-    Database.forURL(System.getenv("HEROKU_POSTGRESQL_AQUA_URL"), driver = "org.postgresql.Driver") withSession {
+    val dbUri = new URL(System.getenv("HEROKU_POSTGRESQL_AQUA_URL"))
+
+    val username = dbUri.getUserInfo().split(":")(0)
+    val password = dbUri.getUserInfo().split(":")(1)
+    val dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath()
+    println(dbUrl + " " + username + " " + password)
+    Database.forURL(dbUrl, username, password, driver = "org.postgresql.Driver") withSession {
       Query(Players) foreach {
         case (name, cost) =>
           println("  " + name + "\t" + cost + "\t")
