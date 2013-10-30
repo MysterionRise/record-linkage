@@ -14,6 +14,7 @@ class ScalatraBootstrap extends LifeCycle {
   // In the init method, mount your servlets with references to the system
   // and/or ActorRefs, as necessary.
   override def init(context: ServletContext) {
+    Class.forName("org.postgresql.Driver")
     context.mount(new H2HMainServlet, "/*")
   }
 

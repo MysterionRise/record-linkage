@@ -12,7 +12,7 @@
 <ul>
 #for (i <- 0  until count)
   <li>
-  <div>Игрок: <a href=${players(i)._3}>${players(i)._4}</a><br>
+  <div>Игрок: <a href=${players(i)._3}>${players(i)._4}</a> ${players(i)._5}<br>
   Команда: <a href=${players(i)._1}>${players(i)._2}</a><br>
   Количество очков: ${players(i)._5}<br></div>
   </li>
