@@ -10,15 +10,22 @@ import net.liftweb.sitemap.{Menu, SiteMap}
 class Boot {
   def boot {
     // where to search snippet
-    LiftRules.addToPackages("org.yourorganization.liftfromscratch")
+    LiftRules.addToPackages("org.mystic.h2h")
 
     // Build SiteMap
     def sitemap(): SiteMap = SiteMap(
-      Menu.i("Home") / "index"
+      Menu.i("Home") / "index",
+
+    Menu.i("Info") / "info" submenus(
+      Menu.i("About") / "about",
+      Menu.i("Contact") / "contact",
+      Menu.i("Feedback") / "feedback")
     )
 
-    // Use HTML5 for rendering
-    LiftRules.htmlProperties.default.set((r: Req) =>
-      new Html5Properties(r.userAgent))
+    LiftRules.setSiteMapFunc(() => sitemap())
+
+    // @todo HTML5 ruins snippet detection
+//    LiftRules.htmlProperties.default.set((r: Req) =>
+//      new Html5Properties(r.userAgent))
   }
 }
