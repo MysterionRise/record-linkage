@@ -15,17 +15,15 @@ class Boot {
     // Build SiteMap
     def sitemap(): SiteMap = SiteMap(
       Menu.i("Home") / "index",
-
-    Menu.i("Info") / "info" submenus(
-      Menu.i("About") / "about",
-      Menu.i("Contact") / "contact",
-      Menu.i("Feedback") / "feedback")
+      Menu.i("Info") / "info" submenus(
+        Menu.i("About") / "about",
+        Menu.i("Contact") / "contact",
+        Menu.i("Feedback") / "feedback")
     )
 
     LiftRules.setSiteMapFunc(() => sitemap())
 
-    // @todo HTML5 ruins snippet detection
-//    LiftRules.htmlProperties.default.set((r: Req) =>
-//      new Html5Properties(r.userAgent))
+    LiftRules.htmlProperties.default.set((r: Req) =>
+      new Html5Properties(r.userAgent))
   }
 }
