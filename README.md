@@ -14,5 +14,6 @@ If `browse` doesn't launch your browser, manually open [http://localhost:8080/](
 
 ```sh
 $ sbt package
-> heroku deploy:war --war target/${SCALA_VERSION}/${APP_NAME}.war --app ${HEROKU_APP_NAME}
+> heroku deploy:war --war target/${SCALA_VERSION}/${APP_NAME}.war
+ --app ${HEROKU_APP_NAME}
 ```
