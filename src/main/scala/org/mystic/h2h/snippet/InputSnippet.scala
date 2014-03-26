@@ -9,5 +9,5 @@ class InputSnippet extends DispatchSnippet{
   }
 
   def render (name : String)(input : NodeSeq) : NodeSeq =
-    Text("Hello, world! Invoked as " + name + "with input " + input)
+    Text("Hello, world! Invoked as " + name + " with input " + input)
 }
