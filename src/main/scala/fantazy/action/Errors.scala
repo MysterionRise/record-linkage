@@ -1,4 +1,4 @@
-package quickstart.action
+package fantazy.action
 
 import xitrum.annotation.{Error404, Error500}
 

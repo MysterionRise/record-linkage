@@ -1,4 +1,4 @@
-package quickstart
+package fantazy
 
 import xitrum.Server
 

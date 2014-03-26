@@ -1,4 +1,4 @@
-- import quickstart.action._
+- import fantazy.action._
 
 !!! 5
 html
@@ -7,7 +7,7 @@ html
     != xitrumCss
 
     meta(content="text/html; charset=utf-8" http-equiv="content-type")
-    title My new Xitrum project
+    title H2H Fantazy
 
     link(type="image/vnd.microsoft.icon" rel="shortcut icon" href={publicUrl("favicon.ico")})
 
@@ -19,10 +19,9 @@ html
   body
     .container_12
       h1
-        a(href={url[SiteIndex]}) My new Xitrum project
-
-      #flash
-        !~ jsRenderFlash()
+        H2H Fantazy for
+        |
+        a(href="http://sports.ru") Sports.ru
       != renderedView
 
     != jsDefaults
