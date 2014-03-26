@@ -1,0 +1,1 @@
+web: target/xitrum/script/runner fantazy.Boot $PORT

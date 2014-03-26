@@ -65,3 +65,12 @@ unmanagedClasspath in Runtime <+= (baseDirectory) map { bd => Attributed.blank(b
 
 // Copy these to target/xitrum when sbt xitrum-package is run
 XitrumPackage.copy("config", "public", "script")
+
+libraryDependencies += "net.sourceforge.htmlcleaner" % "htmlcleaner" % "2.4"
+
+libraryDependencies += "org.squeryl" % "squeryl_2.10" % "0.9.5-6"
+
+libraryDependencies += "com.mchange" % "c3p0" % "0.9.2.1"
+
+// for heroku deployment
+addCommandAlias("stage", ";xitrum-package")
