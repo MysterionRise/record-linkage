@@ -1,24 +1,76 @@
-organization := "org.mystic"
+// Scalate template engine config for Xitrum
+// "import" must be at top of build.sbt, or SBT will complain
+import ScalateKeys._
 
-name := "h2h-fantazy"
+// Precompile Scalate
+seq(scalateSettings:_*)
 
-version := "0.1-SNAPSHOT"
+scalateTemplateConfig in Compile := Seq(TemplateConfig(
+  file("src") / "main" / "scalate",
+  Seq(),
+  Seq(Binding("helper", "xitrum.Action", true))
+))
+
+libraryDependencies += "tv.cntt" %% "xitrum-scalate" % "1.8"
+
+//------------------------------------------------------------------------------
+
+organization := "tv.cntt"
+
+name         := "xitrum-new"
+
+version      := "1.0-SNAPSHOT"
 
 scalaVersion := "2.10.3"
 
-seq(webSettings: _*)
+scalacOptions ++= Seq("-deprecation", "-feature", "-unchecked")
 
-libraryDependencies ++= {
-  val liftVersion = "2.5.1"
-  Seq(
-    "net.liftweb" %% "lift-webkit" % liftVersion % "compile",
-    "org.eclipse.jetty" % "jetty-webapp" % "8.1.7.v20120910" %
-      "container,test",
-    "org.eclipse.jetty.orbit" % "javax.servlet" % "3.0.0.v201112011016" % "container,compile" artifacts Artifact("javax.servlet", "jar", "jar"),
-    "com.github.nscala-time" %% "nscala-time" % "0.6.0",
-    "net.sourceforge.htmlcleaner" % "htmlcleaner" % "2.6.1",
-    "org.squeryl" %% "squeryl" % "0.9.5-6",
-    "c3p0" % "c3p0" % "0.9.1.2",
-    "org.postgresql" % "postgresql" % "9.2-1003-jdbc4"
-  )
+// Xitrum requires Java 7
+javacOptions ++= Seq("-source", "1.7", "-target", "1.7")
+
+//------------------------------------------------------------------------------
+
+// Most Scala projects are published to Sonatype, but Sonatype is not default
+// and it takes several hours to sync from Sonatype to Maven Central
+resolvers += "SonatypeReleases" at "http://oss.sonatype.org/content/repositories/releases/"
+
+libraryDependencies += "tv.cntt" %% "xitrum" % "3.5"
+
+// Xitrum uses SLF4J, an implementation of SLF4J is needed
+libraryDependencies += "ch.qos.logback" % "logback-classic" % "1.1.1"
+
+// xgettext i18n translation key string extractor is a compiler plugin ---------
+
+autoCompilerPlugins := true
+
+addCompilerPlugin("tv.cntt" %% "xgettext" % "1.0")
+
+scalacOptions += "-P:xgettext:xitrum.I18n"
+
+// xitrum.imperatively uses Scala continuation, also a compiler plugin ---------
+
+libraryDependencies <+= scalaVersion { sv =>
+  compilerPlugin("org.scala-lang.plugins" % "continuations" % sv)
 }
+
+scalacOptions += "-P:continuations:enable"
+
+// Put config directory in classpath for easier development --------------------
+
+// For "sbt console"
+unmanagedClasspath in Compile <+= (baseDirectory) map { bd => Attributed.blank(bd / "config") }
+
+// For "sbt run"
+unmanagedClasspath in Runtime <+= (baseDirectory) map { bd => Attributed.blank(bd / "config") }
+
+// Copy these to target/xitrum when sbt xitrum-package is run
+XitrumPackage.copy("config", "public", "script")
+
+libraryDependencies += "net.sourceforge.htmlcleaner" % "htmlcleaner" % "2.4"
+
+libraryDependencies += "org.squeryl" % "squeryl_2.10" % "0.9.5-6"
+
+libraryDependencies += "com.mchange" % "c3p0" % "0.9.2.1"
+
+// for heroku deployment
+addCommandAlias("stage", ";xitrum-package")
