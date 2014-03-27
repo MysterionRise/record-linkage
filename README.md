@@ -11,4 +11,7 @@ Manually open [http://localhost:8000/](http://localhost:8000/) in your browser.
 
 ## Deploy on Heroku ##
 
-IN PROGRESS
+```sh
+$ git remote add heroku ${HEROKU_APP_URL}
+> git push heroku master
+```
