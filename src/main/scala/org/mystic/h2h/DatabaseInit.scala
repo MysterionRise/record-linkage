@@ -1,7 +1,7 @@
 package org.mystic.h2h
 
 import com.mchange.v2.c3p0.ComboPooledDataSource
-import org.squeryl.adapters.{PostgreSqlAdapter, MySQLAdapter}
+import org.squeryl.adapters.{PostgreSqlAdapter}
 import org.squeryl.Session
 import org.squeryl.SessionFactory
 import org.slf4j.LoggerFactory
