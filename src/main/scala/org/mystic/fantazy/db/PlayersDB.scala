@@ -1,4 +1,4 @@
-package org.mystic.h2h
+package org.mystic.fantazy.db
 
 import org.squeryl.PrimitiveTypeMode._
 import org.squeryl.KeyedEntity

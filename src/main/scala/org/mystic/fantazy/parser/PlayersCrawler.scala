@@ -1,4 +1,4 @@
-package org.mystic.h2h.fantasy
+package org.mystic.fantazy.parser
 
 import org.slf4j.LoggerFactory
 import scala.collection.mutable.ListBuffer

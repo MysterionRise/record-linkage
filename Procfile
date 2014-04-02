@@ -1,1 +1,1 @@
-web: target/xitrum/script/runner fantazy.Boot $PORT
+web: target/xitrum/script/runner org.mystic.fantazy.Boot $PORT

@@ -1,4 +1,4 @@
-package fantazy.action
+package org.mystic.fantazy.action
 
 import xitrum.annotation.GET
 

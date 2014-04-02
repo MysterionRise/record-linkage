@@ -1,10 +1,10 @@
-package fantazy.action
+package org.mystic.fantazy.action
 
-import xitrum.annotation.GET
 import xitrum.FutureAction
+import xitrum.annotation.GET
 
-@GET("/players")
-class Players extends FutureAction {
+@GET("/tournaments")
+class Tournaments extends FutureAction{
   override def execute(): Unit = {
     respondText("It's not 404, but still empty page")
   }

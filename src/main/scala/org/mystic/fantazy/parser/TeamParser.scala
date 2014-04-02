@@ -1,6 +1,6 @@
-package org.mystic.h2h.fantasy
+package org.mystic.fantazy.parser
 
-import scala.collection.mutable.{ListBuffer, HashMap}
+import scala.collection.mutable.HashMap
 import org.slf4j.LoggerFactory
 
 /**

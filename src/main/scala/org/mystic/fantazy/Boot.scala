@@ -1,4 +1,4 @@
-package fantazy
+package org.mystic.fantazy
 
 import xitrum.Server
 import util.Properties
