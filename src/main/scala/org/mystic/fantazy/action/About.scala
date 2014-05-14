@@ -6,6 +6,6 @@ import xitrum.FutureAction
 @GET("/about")
 class About extends FutureAction {
   override def execute(): Unit = {
-    respondDefault404Page()
+    respondView()
   }
 }

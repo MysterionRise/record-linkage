@@ -1,0 +1,27 @@
+!!! 5
+
+html
+ head
+  != antiCsrfMeta
+  != xitrumCss
+  meta(content="text/html; charset=utf-8" http-equiv="content-type")
+  title About Me
+
+  link(type="image/vnd.microsoft.icon" rel="shortcut icon" href={publicUrl("favicon.ico")})
+
+  link(type="text/css" rel="stylesheet" media="all" href={publicUrl("css/960/reset.css")})
+  link(type="text/css" rel="stylesheet" media="all" href={publicUrl("css/960/text.css")})
+  link(type="text/css" rel="stylesheet" media="all" href={publicUrl("css/960/960.css")})
+  link(type="text/css" rel="stylesheet" media="all" href={publicUrl("css/app.css")})
+ body
+  .container_12
+   h1
+    | About Me
+   h5
+    | I'm a <i>programmer</i> that love to code
+    br
+    | Check my <a href="https://github.com/MysterionRise">GitHub profile</a> for more awesome projects like,
+    br
+    | <a href="https://github.com/MysterionRise/mavenized-jcuda">Mavenized JCuda</a>, <a href="https://github.com/MysterionRise/kagan-figures">MFFT</a> and many many more interesting stuff.
+    br
+    | Also I love to take pictures - check my <a href="https://www.flickr.com/photos/perikov/">Flickr account<a>
