@@ -1,10 +1,10 @@
 package org.mystic.fantazy.action
 
-import xitrum.FutureAction
 import xitrum.annotation.GET
+import xitrum.FutureAction
 
-@GET("/leagues")
-class Leagues extends FutureAction{
+@GET("/about")
+class About extends FutureAction {
   override def execute(): Unit = {
     respondDefault404Page()
   }
