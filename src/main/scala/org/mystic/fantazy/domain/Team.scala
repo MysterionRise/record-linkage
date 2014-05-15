@@ -1,8 +1,9 @@
 package org.mystic.fantazy.domain
 
 /**
- * Created by kperikov on 4/2/14.
+ * DTO for saving team properties
  */
-class Team {
+// teamURI, teamName, playerURI, playerName, score, bal
+class Team(val name: String, val uri: String, val playerName: String, val score: String, val balance: String, var totalCost: Int) {
 
 }

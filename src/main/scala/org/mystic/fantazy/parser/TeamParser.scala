@@ -1,38 +1,44 @@
 package org.mystic.fantazy.parser
 
-import scala.collection.mutable.HashMap
 import org.slf4j.LoggerFactory
+import org.mystic.fantazy.domain.Team
+import org.htmlcleaner.HtmlCleaner
+import java.net.URL
 
 /**
- * @author mysterion
- *         Crawling from sports.ru
+ * Crawling team info from sports.ru
  */
-//@todo global todo, need to refactor this parser to use HtmlCleaner, or some SAX-style parser, not Scanner
 class TeamParser {
 
   val logger = LoggerFactory.getLogger(getClass)
+  val th = "th"
 
-  def getItAll(urlstring: String): Array[String] = {
-    val url = new java.net.URL(urlstring)
+  def getItAll(teamURI: String): Team = {
+    val cleaner = new HtmlCleaner
+    val rootNode = cleaner.clean(new URL(teamURI))
+    val elements = rootNode.getElementsByName(th, true)
+    for (elem <- elements) {
+      if(elem.getAttributeByName())
+    }
+    val url = new java.net.URL(teamURI)
     val scan = new java.util.Scanner(url.openStream, "UTF-8")
-    val result = new Array[String](6)
+    // teamURI, teamName, playerURI, playerName, score, bal
     while (scan.hasNext) {
       val s = scan.nextLine
       if (s.contains("<th>Пользователь</th>")) {
         val str: String = scan.nextLine.substring(48)
-        result(3) = str.substring(0, str.length - 9).replace(">", "").replace("\"", "")
-        // teamURI, teamName, playerURI, playerName, score, bal
+        val playerName = str.substring(0, str.length - 9).replace(">", "").replace("\"", "")
       }
       if (s.contains("<title>")) {
-        result(1) = s.substring(7, s.length - ": профиль - Фэнтези - Sports.ru</title>".length)
+        val teamName = s.substring(7, s.length - ": профиль - Фэнтези - Sports.ru</title>".length)
       }
       if (s.contains("<th>Стоимость команды</th>")) {
-        result(4) = scan.nextLine
+        val score = scan.nextLine
       }
       if (s.contains("<th>Баланс</th>")) {
-        result(5) = scan.nextLine
+        val balance = scan.nextLine
       }
     }
-    result
+    new Team(teamName, teamURI, playerName, score, balance, 0)
   }
 }

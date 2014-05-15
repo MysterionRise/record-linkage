@@ -1,8 +1,6 @@
 package org.mystic.fantazy.domain
 
-/**
- * Created by kperikov on 4/2/14.
- */
-class League {
+class League(val id: Long, val name: String, val uri: String) {
 
+  override def toString: String = "id: " + id + " name: " + name + " uri: " + uri
 }
