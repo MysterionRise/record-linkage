@@ -12,13 +12,26 @@ class TeamParser {
 
   val logger = LoggerFactory.getLogger(getClass)
   val th = "th"
+  val classAttr = "class"
+  val classValue = "profile-table"
 
   def getItAll(teamURI: String): Team = {
     val cleaner = new HtmlCleaner
     val rootNode = cleaner.clean(new URL(teamURI))
     val elements = rootNode.getElementsByName(th, true)
     for (elem <- elements) {
-      if(elem.getAttributeByName())
+      val classType = elem.getAttributeByName(classAttr)
+      if (classType != null && classType.equalsIgnoreCase(classValue)) {
+        val childElements = elem.getChildTags
+        for (childElem <- childElements) {
+          childElem.getNam
+          if (childElem.getName)
+          if (childClassType != null && childClassType.equalsIgnoreCase(bold)) {
+            extractTeamInfo(childElem, teamCrawler, teams)
+            len += 1
+          }
+        }
+      }
     }
     val url = new java.net.URL(teamURI)
     val scan = new java.util.Scanner(url.openStream, "UTF-8")
