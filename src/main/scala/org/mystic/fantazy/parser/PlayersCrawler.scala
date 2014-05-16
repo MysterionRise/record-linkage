@@ -20,12 +20,6 @@ object PlayersCrawler {
   def extractTeamInfo(childElem: TagNode, teams: ListBuffer[Team]) = {
     val teamURI = site + childElem.getAttributeByName(href)
     val team = TeamParser.getTeamSummary(teamURI)
-    val score = team.score
-    val balance = team.balance
-    if (score != null && balance != null) {
-      val totalCost = Integer.parseInt(score.substring(4, score.length - 5)) + Integer.parseInt(balance.substring(4, balance.length - 5))
-      team.totalCost = totalCost
-    }
     teams.+=(team)
   }
 

@@ -4,6 +4,7 @@ import org.slf4j.LoggerFactory
 import org.mystic.fantazy.domain.Team
 import org.htmlcleaner.HtmlCleaner
 import java.net.URL
+import scala.StringBuilder
 
 /**
  * Crawling team info from sports.ru
@@ -29,28 +30,25 @@ object TeamParser {
         }
       }
     }
-    //    val url = new java.net.URL(teamURI)
-    //    val scan = new java.util.Scanner(url.openStream, "UTF-8")
-    //    // teamURI, teamName, playerURI, playerName, score, bal
-    //    while (scan.hasNext) {
-    //      val s = scan.nextLine
-    //      if (s.contains("<th>Пользователь</th>")) {
-    //        val str: String = scan.nextLine.substring(48)
-    //        val playerName = str.substring(0, str.length - 9).replace(">", "").replace("\"", "")
-    //      }
-    //      if (s.contains("<title>")) {
-    //        val teamName = s.substring(7, s.length - ": профиль - Фэнтези - Sports.ru</title>".length)
-    //      }
-    //      if (s.contains("<th>Стоимость команды</th>")) {
-    //        val score = scan.nextLine
-    //      }
-    //      if (s.contains("<th>Баланс</th>")) {
-    //        val balance = scan.nextLine
-    //      }
-    //    }
-    //    new Team(teamName, teamURI, playerName, score, balance, 0)
-    //    System.out.println(summary.toString().replaceAll("\\s{2,}", " ").trim)
-    new Team(null, null, null, null, null, 0, summary.toString().replaceAll("\\s{2,}", " ").trim)
+    createTeam(summary, teamURI)
+  }
+
+  def createTeam(summary: StringBuilder, teamURI: String): Team = {
+    val parsebleInfo: String = summary.toString.replaceAll("\\s{1,}", " ").trim
+    //    System.out.println(parsebleInfo)
+    val playerNameStart = parsebleInfo.lastIndexOf("Пользователь") + 1 + "Пользователь".length
+    val playerNameEnd = parsebleInfo.lastIndexOf("Турнир") - 1
+    //    System.out.println(parsebleInfo.substring(playerNameStart, playerNameEnd))
+    val scoreStart = parsebleInfo.lastIndexOf("Стоимость команды") + 1 + "Стоимость команды".length
+    val scoreEnd = parsebleInfo.lastIndexOf("Баланс") - 1
+    //    System.out.println(parsebleInfo.substring(scoreStart, scoreEnd))
+    val balanceStart = scoreEnd + "Баланс".length + 2
+    val balanceEnd = parsebleInfo.lastIndexOf("Трансферы") - 1
+    //    System.out.println(parsebleInfo.substring(balanceStart, balanceEnd))
+    val totalCost = Integer.parseInt(parsebleInfo.substring(scoreStart, scoreEnd)) + Integer.parseInt(parsebleInfo.substring(balanceStart, balanceEnd))
+    //    System.out.println(totalCost)
+    // TODO we could parse multiple stuff like place, number of transfers, etc.
+    new Team(null, teamURI, parsebleInfo.substring(playerNameStart, playerNameEnd), totalCost, summary.toString())
   }
 
   def main(args: Array[String]) {
