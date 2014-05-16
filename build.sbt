@@ -17,7 +17,7 @@ libraryDependencies += "tv.cntt" %% "xitrum-scalate" % "1.8"
 
 organization := "tv.cntt"
 
-name         := "xitrum-new"
+name         := "h2h-fantazy"
 
 version      := "1.0-SNAPSHOT"
 

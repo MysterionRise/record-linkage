@@ -17,9 +17,9 @@ object PlayersCrawler {
   val td = "td"
   val bold = "bold"
 
-  def extractTeamInfo(childElem: TagNode, teamCrawler: TeamParser, teams: ListBuffer[Team]) = {
+  def extractTeamInfo(childElem: TagNode, teams: ListBuffer[Team]) = {
     val teamURI = site + childElem.getAttributeByName(href)
-    val team = teamCrawler.getItAll(teamURI)
+    val team = TeamParser.getTeamSummary(teamURI)
     val score = team.score
     val balance = team.balance
     if (score != null && balance != null) {
@@ -32,41 +32,20 @@ object PlayersCrawler {
 
   def getAllTeams(leagueURI: String): List[Team] = {
     val teams = new ListBuffer[Team]
-    val cleaner = new HtmlCleaner
-    var i = 1
-    var flag = true
-    val teamCrawler = new TeamParser
-    while (flag) {
-      var len = 0
-      val rootNode = cleaner.clean(new URL(leagueURI + pagination + i))
-      val elements = rootNode.getElementsByName(td, true)
-      for (elem <- elements) {
-        val classType = elem.getAttributeByName(classAttr)
-        if (classType != null && classType.equalsIgnoreCase(classValue)) {
-          val childElements = elem.getChildTags
-          for (childElem <- childElements) {
-            val childClassType = childElem.getAttributeByName(classAttr)
-            if (childClassType != null && childClassType.equalsIgnoreCase(bold)) {
-              extractTeamInfo(childElem, teamCrawler, teams)
-              len += 1
-            }
-          }
-        }
-      }
-      if (len == 0)
-        flag = false
-      i += 1
+    var pageNumber = 1
+    var prevLength = -1
+    while (teams.length - prevLength > 0) {
+      prevLength = teams.length
+      getAllTeamsOnPage(leagueURI, pageNumber, teams)
+      pageNumber += 1
     }
     teams.toList
   }
 
-
-  def getAllTeamsInLeague(leagueURI: String): List[Team] = {
-    val teams = new ListBuffer[Team]
+  def getAllTeamsOnPage(leagueURI: String, pageNumber: Int, teams: ListBuffer[Team]) = {
     val cleaner = new HtmlCleaner
-    val rootNode = cleaner.clean(new URL(leagueURI))
+    val rootNode = cleaner.clean(new URL(leagueURI + pagination + pageNumber))
     val elements = rootNode.getElementsByName(td, true)
-    val teamCrawler = new TeamParser
     for (elem <- elements) {
       val classType = elem.getAttributeByName(classAttr)
       if (classType != null && classType.equalsIgnoreCase(classValue)) {
@@ -74,7 +53,7 @@ object PlayersCrawler {
         for (childElem <- childElements) {
           val childClassType = childElem.getAttributeByName(classAttr)
           if (childClassType != null && childClassType.equalsIgnoreCase(bold)) {
-            extractTeamInfo(childElem, teamCrawler, teams)
+            extractTeamInfo(childElem, teams)
           }
         }
       }
@@ -86,6 +65,6 @@ object PlayersCrawler {
     val start = System.currentTimeMillis()
     val teams = getAllTeams("http://www.sports.ru/fantasy/basketball/league/10942.html")
     System.out.println(teams.length)
-    System.out.println((System.currentTimeMillis() - start) / 1000)
+    System.out.println((System.currentTimeMillis() - start) + " ms")
   }
 }
