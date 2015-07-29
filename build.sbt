@@ -4,4 +4,7 @@ version := "1.0"
 
 scalaVersion := "2.11.7"
 
-libraryDependencies += "net.databinder.dispatch" % "dispatch-core_2.11" % "0.11.3"
+libraryDependencies ++= Seq(
+  "net.databinder.dispatch" % "dispatch-core_2.11" % "0.11.3",
+  "org.json4s" %% "json4s-native" % "3.2.10"
+)
