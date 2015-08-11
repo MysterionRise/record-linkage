@@ -1,1 +1,1 @@
-logLevel := Level.Warn
+logLevel in compile := Level.Error
