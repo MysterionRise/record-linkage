@@ -1,3 +1,6 @@
+package com.github.mysterionrise
+
+import com.github.mysterionrise.model.Player
 import dispatch.Defaults._
 import dispatch._
 import org.json4s._
@@ -17,23 +20,29 @@ object ProBasketballAPI {
 
   }
 
-  def parseResponse(response: Future[Either[Throwable, String]]) = {
+  def parseResponse(response: Future[Either[Throwable, String]]): JValue = {
     response() match {
       case Right(content) => {
-        println("Content: " + pretty(render(parse(content))))
-
+        val res = res(content)
+        println("Content: " + pretty(render(res)))
+        res
       }
-      case Left(StatusCode(404)) => println("Not found")
-      case Left(StatusCode(code)) => println("Some other code: " + code.toString)
-      case Left(e: Exception) => e.printStackTrace()
+      case Left(StatusCode(code)) => {
+        println(s"Error code: ${code.toString}")
+        JNull
+      }
+      case Left(e: Exception) => {
+        e.printStackTrace()
+        JNull
+      }
     }
   }
 
-  def getAllPlayers(apiKey: String): JArray = {
+  def getAllPlayers(apiKey: String): Array[Player] = {
     val params = Map("api_key" -> apiKey)
     val req = api / "players" <<? params <:< headers
     val response = http(req.POST OK as.String).either
-    parseResponse(response)
+    val result = parseResponse(response)
   }
 
   def getPlayerStats(apiKey: String, playerId: String) = {
