@@ -17,13 +17,17 @@ object ProBasketballAPI {
 
   def main(args: Array[String]) {
     val apiKey = readLine()
+    getAllPlayers(apiKey) match {
+      case Some(x) => x.foreach(p => println(p))
+      case _ =>
+    }
 
   }
 
   def parseResponse(response: Future[Either[Throwable, String]]): JValue = {
     response() match {
       case Right(content) => {
-        val res = res(content)
+        val res = parse(content)
         println("Content: " + pretty(render(res)))
         res
       }
@@ -38,11 +42,27 @@ object ProBasketballAPI {
     }
   }
 
-  def getAllPlayers(apiKey: String): Array[Player] = {
+  def getAllPlayers(apiKey: String): Option[List[Player]] = {
     val params = Map("api_key" -> apiKey)
     val req = api / "players" <<? params <:< headers
     val response = http(req.POST OK as.String).either
     val result = parseResponse(response)
+    result match {
+      case (players: JArray) => {
+        val arr = for {
+          JObject(player) <- players
+          JField("player_id", JInt(id)) <- player
+          JField("team_id", JInt(team)) <- player
+          JField("player_name", JString(name)) <- player
+          JField("birth_date", JInt(date)) <- player
+        } yield Player(id.intValue, team.intValue, name, date.longValue)
+        Some(arr)
+      }
+      case _ => {
+        println("Error happens during parsing")
+        None
+      }
+    }
   }
 
   def getPlayerStats(apiKey: String, playerId: String) = {
