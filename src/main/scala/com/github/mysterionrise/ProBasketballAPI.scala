@@ -1,6 +1,6 @@
 package com.github.mysterionrise
 
-import com.github.mysterionrise.model.{GameStats, Player}
+import com.github.mysterionrise.model.{Team, GameStats, Player}
 import dispatch.Defaults._
 import dispatch._
 import org.json4s._
@@ -17,7 +17,7 @@ object ProBasketballAPI {
 
   def main(args: Array[String]) {
     val apiKey = readLine()
-    getAllPlayers(apiKey) match {
+    getAllTeams(apiKey) match {
       case Some(x) => x.foreach(p => println(p))
       case _ =>
     }
@@ -73,6 +73,28 @@ object ProBasketballAPI {
           JObject(boxscore) <- boxscores
           JField("id", JInt(id)) <- boxscore
         } yield GameStats(id.longValue)
+        Some(arr)
+      }
+      case _ => {
+        println("Error happens during parsing")
+        None
+      }
+    }
+  }
+
+  def getAllTeams(apiKey: String): Option[List[Team]] = {
+    val params = Map("api_key" -> apiKey)
+    val req = api / "teams"  <<? params <:< headers
+    val response = http(req.POST OK as.String).either
+    parseResponse(response) match {
+      case (teams: JArray) => {
+        val arr = for {
+          JObject(team) <- teams
+          JField("team_id", JInt(id)) <- team
+          JField("team_name", JString(name)) <- team
+          JField("city", JString(city)) <- team
+          JField("abbreviation", JString(abb)) <- team
+        } yield Team(id.longValue, name, city, abb)
         Some(arr)
       }
       case _ => {
