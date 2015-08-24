@@ -6,8 +6,6 @@ import dispatch._
 import org.json4s._
 import org.json4s.native.JsonMethods._
 
-import scala.io.StdIn._
-
 object ProBasketballAPI {
 
   implicit def bigInt2Long(b: BigInt) = b.longValue()
