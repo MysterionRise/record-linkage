@@ -1,6 +1,6 @@
 package com.github.mysterionrise
 
-import com.github.mysterionrise.model.{Team, GameStats, Player}
+import com.github.mysterionrise.model.GameStats
 import dispatch.Defaults._
 import dispatch._
 import org.json4s._
@@ -8,9 +8,9 @@ import org.json4s.native.JsonMethods._
 
 object ProBasketballAPI {
 
-  implicit def bigInt2Long(b: BigInt) = b.longValue()
+  implicit def bigInt2Long(b: BigInt): Long = b.longValue()
 
-  implicit def bigInt2Int(b: BigInt) = b.intValue()
+  implicit def bigInt2Int(b: BigInt): Int = b.intValue()
 
   val api = url("https://probasketballapi.com")
   val headers = Map("Content-type" -> "application/json")
@@ -44,35 +44,36 @@ object ProBasketballAPI {
     }
   }
 
-  def getAllPlayers(apiKey: String): Option[List[Player]] = {
-    val params = Map("api_key" -> apiKey)
-    val req = api / "players" <<? params <:< headers
-    val response = http(req.POST OK as.String).either
-    parseResponse(response) match {
-      case (players: JArray) => {
-        val arr = for {
-          JObject(player) <- players
-          JField("player_id", JInt(id)) <- player
-          JField("team_id", JInt(team)) <- player
-          JField("player_name", JString(name)) <- player
-          JField("birth_date", JInt(date)) <- player
-        } yield Player(id, team, name, date)
-        Some(arr)
-      }
-      case _ => {
-        println("Error happens during parsing")
-        None
-      }
-    }
-  }
+//  def getAllPlayers(apiKey: String): Option[List[Player]] = {
+//    val params = Map("api_key" -> apiKey)
+//    val req = api / "players" <<? params <:< headers
+//    val response = http(req.POST OK as.String).either
+//    parseResponse(response) match {
+//      case (players: JArray) => {
+//        val arr = for {
+//          JObject(player) <- players
+//          JField("player_id", JInt(id)) <- player
+//          JField("team_id", JInt(team)) <- player
+//          JField("player_name", JString(name)) <- player
+//          JField("birth_date", JInt(date)) <- player
+//        } yield Player(id, team, name, date)
+//        Some(arr)
+//      }
+//      case _ => {
+//        println("Error happens during parsing")
+//        None
+//      }
+//    }
+//  }
 
   def getPlayerStats(apiKey: String, playerId: String): Option[List[GameStats]] = {
     val params = Map("api_key" -> apiKey, "player_id" -> playerId)
     val req = api / "stats" / "players" <<? params <:< headers
     val response = http(req.POST OK as.String).either
+    var res: Option[List[GameStats]] = None
     parseResponse(response) match {
       case (boxscores: JArray) => {
-        Some(for {
+        res = Some(for {
           JObject(boxscore) <- boxscores
           JField("id", JInt(id)) <- boxscore
           JField("game_id", JInt(gameId)) <- boxscore
@@ -99,31 +100,31 @@ object ProBasketballAPI {
       }
       case _ => {
         println("Error happens during parsing")
-        None
       }
     }
+    res
   }
 
-  def getAllTeams(apiKey: String): Option[List[Team]] = {
-    val params = Map("api_key" -> apiKey)
-    val req = api / "teams" <<? params <:< headers
-    val response = http(req.POST OK as.String).either
-    parseResponse(response) match {
-      case (teams: JArray) => {
-        val arr = for {
-          JObject(team) <- teams
-          JField("team_id", JInt(id)) <- team
-          JField("team_name", JString(name)) <- team
-          JField("city", JString(city)) <- team
-          JField("abbreviation", JString(abb)) <- team
-        } yield Team(id, name, city, abb)
-        Some(arr)
-      }
-      case _ => {
-        println("Error happens during parsing")
-        None
-      }
-    }
-  }
+//  def getAllTeams(apiKey: String): Option[List[Team]] = {
+//    val params = Map("api_key" -> apiKey)
+//    val req = api / "teams" <<? params <:< headers
+//    val response = http(req.POST OK as.String).either
+//    parseResponse(response) match {
+//      case (teams: JArray) => {
+//        val arr = for {
+//          JObject(team) <- teams
+//          JField("team_id", JInt(id)) <- team
+//          JField("team_name", JString(name)) <- team
+//          JField("city", JString(city)) <- team
+//          JField("abbreviation", JString(abb)) <- team
+//        } yield Team(id, name, city, abb)
+//        Some(arr)
+//      }
+//      case _ => {
+//        println("Error happens during parsing")
+//        None
+//      }
+//    }
+//  }
 
 }
