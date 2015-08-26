@@ -5,6 +5,7 @@ import dispatch._
 import org.json4s._
 import org.json4s.native.JsonMethods._
 
+import scala.collection.mutable.ListBuffer
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.io.StdIn._
 
@@ -75,31 +76,29 @@ object ProBasketballAPI {
     val response = http(req.POST OK as.String).either
     parseResponse(response) match {
       case (boxscores: JArray) => {
-        val res = for {
-          JObject(boxscore) <- boxscores
-          JField("id", JInt(id)) <- boxscore
-          JField("game_id", JInt(gameId)) <- boxscore
-          JField("team_id", JInt(teamId)) <- boxscore
-          JField("opponent_id", JInt(oppId)) <- boxscore
-          JField("box_fgm", JInt(fgm)) <- boxscore
-          JField("box_fga", JInt(fga)) <- boxscore
-          JField("box_fg3m", JInt(fg3m)) <- boxscore
-          JField("box_fg3a", JInt(fg3a)) <- boxscore
-          JField("box_ftm", JInt(ftm)) <- boxscore
-          JField("box_fta", JInt(fta)) <- boxscore
-          JField("box_oreb", JInt(oreb)) <- boxscore
-          JField("box_dreb", JInt(dreb)) <- boxscore
-          JField("box_ast", JInt(ast)) <- boxscore
-//          JField("box_stl", JInt(stl)) <- boxscore
-//          JField("box_blk", JInt(blk)) <- boxscore
-//          JField("box_to", JInt(to)) <- boxscore
-//          JField("box_pf", JInt(pf)) <- boxscore
-//          JField("box_pts", JInt(pts)) <- boxscore
-//          JField("box_plus_minus", JInt(plusMinus)) <- boxscore
-        } yield GameStats(id, gameId, teamId, oppId,
-            fgm, fga, fg3m, fg3a, ftm, fta, oreb, dreb, ast, 0, 0, 0, 0, 0, 0)
-//          yield GameStats(id, gameId, teamId, oppId,
-//            fgm, fga, fg3m, fg3a, ftm, fta, oreb, dreb, ast, stl, blk, to, pf, pts, plusMinus)
+        val res = ListBuffer[GameStats]
+        for (JObject(boxscore) <- boxscores) {
+          (boxscore.asJValue) \ "game_id"
+        }
+        //        val res = for {
+        //          JObject(boxscore) <- boxscores
+        //        } yield
+        //          JField("game_id", JInt(gameId)) <- boxscore
+        //        JField("box_fgm", JInt(fgm)) <- boxscore
+        //        JField("box_fga", JInt(fga)) <- boxscore
+        //        JField("box_fg3m", JInt(fg3m)) <- boxscore
+        //        JField("box_fg3a", JInt(fg3a)) <- boxscore
+        //        JField("box_ftm", JInt(ftm)) <- boxscore
+        //        JField("box_fta", JInt(fta)) <- boxscore
+        //        JField("box_oreb", JInt(oreb)) <- boxscore
+        //        JField("box_dreb", JInt(dreb)) <- boxscore
+        //        JField("box_ast", JInt(ast)) <- boxscore
+        //        JField("box_stl", JInt(stl)) <- boxscore
+        //        JField("box_blk", JInt(blk)) <- boxscore
+        //        JField("box_to", JInt(to)) <- boxscore
+        //        JField("box_pf", JInt(pf)) <- boxscore
+        //        JField("box_pts", JInt(pts)) <- boxscore
+        //      } yield GameStats (gameId, fgm, fga, fg3m, fg3a, ftm, fta, oreb, dreb, ast, stl, blk, to, pf, pts)
         Some(List())
       }
       case _ => {
