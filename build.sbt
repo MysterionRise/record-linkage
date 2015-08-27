@@ -9,7 +9,6 @@ libraryDependencies ++= Seq(
   "org.json4s" % "json4s-native_2.11" % "3.2.11"
 )
 
-// spark version to be used
 val sparkVersion = "1.4.1"
 
 // Needed as SBT's classloader doesn't work well with Spark
