@@ -20,5 +20,4 @@ fork in console := true
 // add a JVM option to use when forking a JVM for 'run'
 javaOptions ++= Seq("-Xmx2G")
 
-// append -deprecation to the options passed to the Scala compiler
 scalacOptions ++= Seq("-deprecation", "-unchecked", "-feature")
