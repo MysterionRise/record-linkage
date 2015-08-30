@@ -4,7 +4,7 @@ import com.github.mysterionrise.model.{GameStats, Player, Team}
 import dispatch._
 import org.json4s._
 import org.json4s.native.JsonMethods._
-
+import scala.language.implicitConversions
 import scala.collection.mutable.ArrayBuffer
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.io.StdIn._
