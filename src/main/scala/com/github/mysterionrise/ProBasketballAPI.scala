@@ -1,11 +1,11 @@
 package com.github.mysterionrise
 
-import com.github.mysterionrise.model.{Team, Player, GameStats}
+import com.github.mysterionrise.model.{GameStats, Player, Team}
 import dispatch._
 import org.json4s._
 import org.json4s.native.JsonMethods._
 
-import scala.collection.mutable.ListBuffer
+import scala.collection.mutable.ArrayBuffer
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.io.StdIn._
 
@@ -14,6 +14,12 @@ object ProBasketballAPI {
   implicit def bigInt2Long(b: BigInt): Long = b.longValue()
 
   implicit def bigInt2Int(b: BigInt): Int = b.intValue()
+
+  implicit def jvalue2JInt(j: JValue): JInt = j.asInstanceOf[JInt]
+
+  implicit def jInt2Long(j: JInt): Long = j.num.longValue()
+
+  implicit def jInt2Int(j: JInt): Int = j.num.intValue()
 
   val api = url("https://probasketballapi.com")
   val headers = Map("Content-type" -> "application/json")
@@ -76,30 +82,26 @@ object ProBasketballAPI {
     val response = http(req.POST OK as.String).either
     parseResponse(response) match {
       case (boxscores: JArray) => {
-        val res = ListBuffer[GameStats]
-        for (JObject(boxscore) <- boxscores) {
-          (boxscore.asJValue) \ "game_id"
-        }
-        //        val res = for {
-        //          JObject(boxscore) <- boxscores
-        //        } yield
-        //          JField("game_id", JInt(gameId)) <- boxscore
-        //        JField("box_fgm", JInt(fgm)) <- boxscore
-        //        JField("box_fga", JInt(fga)) <- boxscore
-        //        JField("box_fg3m", JInt(fg3m)) <- boxscore
-        //        JField("box_fg3a", JInt(fg3a)) <- boxscore
-        //        JField("box_ftm", JInt(ftm)) <- boxscore
-        //        JField("box_fta", JInt(fta)) <- boxscore
-        //        JField("box_oreb", JInt(oreb)) <- boxscore
-        //        JField("box_dreb", JInt(dreb)) <- boxscore
-        //        JField("box_ast", JInt(ast)) <- boxscore
-        //        JField("box_stl", JInt(stl)) <- boxscore
-        //        JField("box_blk", JInt(blk)) <- boxscore
-        //        JField("box_to", JInt(to)) <- boxscore
-        //        JField("box_pf", JInt(pf)) <- boxscore
-        //        JField("box_pts", JInt(pts)) <- boxscore
-        //      } yield GameStats (gameId, fgm, fga, fg3m, fg3a, ftm, fta, oreb, dreb, ast, stl, blk, to, pf, pts)
-        Some(List())
+        val res = new ArrayBuffer[GameStats]()
+        boxscores.arr.foreach(boxscore => {
+          val gameId: JInt = boxscore \ "game_id"
+          val fgm: JInt = boxscore \ "box_fgm"
+          val fga: JInt = boxscore \ "box_fga"
+          val fg3m: JInt = boxscore \ "box_fg3m"
+          val fg3a: JInt = boxscore \ "box_fg3a"
+          val ftm: JInt = boxscore \ "box_ftm"
+          val fta: JInt = boxscore \ "box_fta"
+          val oreb: JInt = boxscore \ "box_oreb"
+          val dreb: JInt = boxscore \ "box_dreb"
+          val ast: JInt = boxscore \ "box_ast"
+          val stl: JInt = boxscore \ "box_stl"
+          val blk: JInt = boxscore \ "box_blk"
+          val to: JInt = boxscore \ "box_to"
+          val pf: JInt = boxscore \ "box_pf"
+          val pts: JInt = boxscore \ "box_pts"
+          res.append(GameStats(gameId, fgm, fga, fg3m, fg3a, ftm, fta, oreb, dreb, ast, stl, blk, to, pf, pts))
+        })
+        Some(res.toList)
       }
       case _ => {
         println("Error happens during parsing")
