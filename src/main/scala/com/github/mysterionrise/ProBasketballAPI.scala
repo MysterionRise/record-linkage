@@ -30,7 +30,7 @@ object ProBasketballAPI {
     val apiKey = readLine()
     // todo it's all about Paul Pierce
     getPlayerStats(apiKey, "1718") match {
-      case Some(x) => x.foreach(p => println(p))
+      case Some(x) => println(x.size)
       case _ =>
     }
   }
