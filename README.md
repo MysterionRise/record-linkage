@@ -1,3 +1,3 @@
-Ongoing project involving ML and Apache Spark
+Ongoing project involving data analysis 
 
 iSXHqcobFZlEJaWvs5mnk9eQU0fOpKMP
