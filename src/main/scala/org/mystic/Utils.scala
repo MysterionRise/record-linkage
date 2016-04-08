@@ -1,5 +1,6 @@
 package org.mystic
 
+
 object Utils {
   type XY = (Double, Double)
   type XYTSeries = Array[XY]
@@ -7,6 +8,8 @@ object Utils {
   type DMatrix[T] = Array[Array[T]]
   type DoubleMatrix = DMatrix[Double]
   type DoubleVector = DVector[Double]
+
+  val CSV_DELIM: String = ","
 
   implicit def int2double(i: Int): Double = i.toDouble
 
