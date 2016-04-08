@@ -1,6 +1,5 @@
 package org.mystic
 
-
 object Utils {
   type XY = (Double, Double)
   type XYTSeries = Array[XY]
@@ -9,6 +8,9 @@ object Utils {
   type DoubleMatrix = DMatrix[Double]
   type DoubleVector = DVector[Double]
 
-  implicit def int2double(i: Int) = i.toDouble
+  implicit def int2double(i: Int): Double = i.toDouble
 
+  implicit def vectorT2DoubleVector[T <% Double](v: DVector[T]): DoubleVector = v.map(_.toDouble)
+
+  implicit def double2DoubleVector(d: Double) = Array[Double](d)
 }
