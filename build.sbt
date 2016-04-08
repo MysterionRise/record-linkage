@@ -1,8 +1,11 @@
 name := "advanced-analytics"
 
-version := "0.1"
+version := "1.0"
 
 scalaVersion := "2.11.6"
+
+resolvers += Resolver.mavenLocal
+resolvers += "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots"
 
 libraryDependencies += "org.apache.commons" % "commons-math3" % "3.6.1"
 
