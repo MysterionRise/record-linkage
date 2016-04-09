@@ -1,12 +1,29 @@
 package org.mystic
 
+import java.io.File
+
+import org.jfree.chart.plot.PlotOrientation
+import org.jfree.chart.{ChartFactory, ChartUtilities}
+import org.jfree.data.xy.{XYSeries, XYSeriesCollection}
 import org.mystic.Utils._
+
 import scala.io.Source
 
 object SimpleWorkflow {
 
+  def plotData(data: Option[XYTSeries]) = {
+    val xLegend = "Volatility"
+    val yLegend = "Volume"
+    val series = new XYSeries("IBM stock")
+    data.getOrElse(new XYTSeries(0)).foreach(x => series.add(x._1, x._2))
+    val seriesCollection = new XYSeriesCollection(series)
+    val chart = ChartFactory.createScatterPlot(xLegend, xLegend, yLegend, seriesCollection, PlotOrientation.VERTICAL, true, false, false)
+    ChartUtilities.saveChartAsPNG(new File("test.png"), chart, 1024, 768)
+  }
+
   def main(args: Array[String]): Unit = {
-    loadData("ibm.csv")
+    val data = loadData("ibm.csv")
+    plotData(data)
   }
 
   // ids of columns

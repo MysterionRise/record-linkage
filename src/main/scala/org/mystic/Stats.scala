@@ -15,10 +15,10 @@ case class Stats[T <% Double](values: DVector[Double]) {
     val _stats = new _Stats(Double.MaxValue, Double.MinValue, 0d, 0d)
 
     values.foreach(x => {
-      if (x < _stats.min) x else _stats.min
-      if (x > _stats.max) x else _stats.max
-      _stats.sum + x
-      _stats.sumSquare + x * x
+      _stats.min = Math.min(x, _stats.min)
+      _stats.max = Math.max(x, _stats.max)
+      _stats.sum += x
+      _stats.sumSquare += x * x
     })
 
     lazy val mean = _stats.sum / values.size
