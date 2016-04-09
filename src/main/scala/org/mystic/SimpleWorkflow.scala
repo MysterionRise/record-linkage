@@ -9,7 +9,19 @@ object SimpleWorkflow {
     loadData("ibm.csv")
   }
 
-  def transform(columns: Array[Array[String]]) = ???
+  // ids of columns
+  val HIGH_id: Int = 2
+  val LOW_id: Int = 3
+  val VOLUME_id: Int = 5
+
+  val volatility = (fs: Array[String]) => fs(HIGH_id).toDouble - fs(LOW_id).toDouble
+  val volume = (fs: Array[String]) => fs(VOLUME_id).toDouble
+
+  def transform(columns: Array[Array[String]]): XYTSeries = {
+    val volatility = Stats[Double](columns.map(SimpleWorkflow.volatility)).normalise
+    val volume = Stats[Double](columns.map(SimpleWorkflow.volume)).normalise
+    volatility.zip(volume)
+  }
 
   def loadData(fileName: String): Option[XYTSeries] = {
     val src = Source.fromFile(fileName)
