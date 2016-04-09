@@ -14,16 +14,19 @@ object SimpleWorkflow {
   def plotData(data: Option[XYTSeries]) = {
     val xLegend = "Volatility"
     val yLegend = "Volume"
-    val series = new XYSeries("IBM stock")
+    val series = new XYSeries("IBM stocks")
     data.getOrElse(new XYTSeries(0)).foreach(x => series.add(x._1, x._2))
     val seriesCollection = new XYSeriesCollection(series)
     val chart = ChartFactory.createScatterPlot(xLegend, xLegend, yLegend, seriesCollection, PlotOrientation.VERTICAL, true, false, false)
     ChartUtilities.saveChartAsPNG(new File("test.png"), chart, 1024, 768)
   }
 
+  def makePrediction: Unit = ???
+
   def main(args: Array[String]): Unit = {
-    val data = loadData("ibm.csv")
+    val data = loadData("ibm-old-data.csv")
     plotData(data)
+    makePrediction
   }
 
   // ids of columns
@@ -41,11 +44,15 @@ object SimpleWorkflow {
   }
 
   def loadData(fileName: String): Option[XYTSeries] = {
-    val src = Source.fromFile(fileName)
-    val fields = src.getLines().map(_.split(CSV_DELIM)).toArray
-    val columns = fields.drop(1)
-    val data = transform(columns)
-    src.close
-    Some(data)
+    try {
+      val src = Source.fromFile(fileName)
+      val fields = src.getLines().map(_.split(CSV_DELIM)).toArray
+      val columns = fields.drop(1)
+      val data = transform(columns)
+      src.close
+      Some(data)
+    } catch {
+      case e: Exception => None
+    }
   }
 }
