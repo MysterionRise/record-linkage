@@ -1,9 +1,11 @@
 name := "advanced-analytics"
 
 version := "1.0"
-
 scalaVersion := "2.11.6"
 
+/***scalaVersion := "2.11.8"
+  *
+  */
 resolvers += Resolver.mavenLocal
 resolvers += "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots"
 
