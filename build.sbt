@@ -15,3 +15,5 @@ libraryDependencies += "org.apache.spark" %% "spark-streaming" % "2.1.0"
 libraryDependencies += "org.apache.spark" %% "spark-core" % "2.1.0"
 
 libraryDependencies += "org.apache.cassandra" % "cassandra-all" % "3.9"
+
+libraryDependencies += "org.scalaj" %% "scalaj-http" % "2.3.0"
