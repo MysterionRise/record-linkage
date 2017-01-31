@@ -21,4 +21,4 @@ libraryDependencies += "org.scalaj" %% "scalaj-http" % "2.3.0"
 libraryDependencies += "org.twitter4j" % "twitter4j-stream" % "4.0.6"
 
 // unsure if it's really needed, tbd
-//libraryDependencies += "org.twitter4j" % "twitter4j-http2-support" % "4.0.6"
+libraryDependencies += "org.twitter4j" % "twitter4j-http2-support" % "4.0.6"
