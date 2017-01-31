@@ -6,11 +6,22 @@ http://www.hazelcast.com/schema/config/hazelcast-config-3.7.xsd"
 
     <network>
         <join>
-            <multicast enabled="true"/>
+            <multicast enabled="false">
+            </multicast>
+            <tcp-ip enabled="true">
+                <member>35.187.31.7</member>
+                <member>35.187.19.21</member>
+                <member>35.187.13.173</member>
+                <member>130.211.99.56</member>
+            </tcp-ip>
         </join>
     </network>
 
-    <queue name="q"/>
+    <map name="skus">
+        <backup-count>1</backup-count>
+        <async-backup-count>1</async-backup-count>
+        <read-backup-data>true</read-backup-data>
+    </map>
 
 </hazelcast>
 
