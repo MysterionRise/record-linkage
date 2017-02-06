@@ -42,6 +42,7 @@ syntax: glob
 nbactions.xml
 
 # building
+*.jar
 target
 build
 null

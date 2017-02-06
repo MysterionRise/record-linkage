@@ -1,5 +1,7 @@
 package org.mystic.cache
 
+import java.util.concurrent.TimeUnit
+
 import com.hazelcast.client.HazelcastClient
 import com.hazelcast.core.{Hazelcast, IMap}
 
@@ -13,19 +15,18 @@ object Client {
 
     val rand = new Random()
     while (true) {
-      for (i <- 0 until rand.nextInt(BUYING_OPERATIONS)) {
-        val skuToBuy = rand.nextInt(SKU_SIZE)
-        if (skus.containsKey(skuToBuy)) {
-          val tryToBuy = rand.nextInt(AVAILABILITY_SIZE / 10)
-          val ammount = skus.get(skuToBuy)
-          if (ammount >= tryToBuy) {
-            skus.put(skuToBuy, ammount - tryToBuy)
-            println(s"buying $skuToBuy $tryToBuy")
-          }
+      val skuToBuy = rand.nextInt(SKU_SIZE)
+      var flag = true
+      while (flag) {
+        val oldValue = skus.get(skuToBuy)
+        val ammountToBuy = rand.nextInt(oldValue / 10 + 1)
+        val newValue = oldValue - ammountToBuy
+        if (skus.replace(skuToBuy, oldValue, newValue)) {
+          println(s"buying $skuToBuy $ammountToBuy")
+          flag = false
         }
       }
-      println(s"sleeping...${System.currentTimeMillis() / 1000}")
-      Thread.sleep(rand.nextInt(100000))
+      TimeUnit.MILLISECONDS.sleep(200)
     }
   }
 }

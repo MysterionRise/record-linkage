@@ -1,3 +1,5 @@
+import sbtassembly.MergeStrategy
+
 name := "advanced-analytics"
 
 version := "1.0"
@@ -24,3 +26,19 @@ libraryDependencies += "org.twitter4j" % "twitter4j-stream" % "4.0.6"
 
 // unsure if it's really needed, tbd
 libraryDependencies += "org.twitter4j" % "twitter4j-http2-support" % "4.0.6"
+
+assemblyJarName in assembly := "populating-client.jar"
+
+mainClass in assembly := Some("org.mystic.cache.PopulatingClient")
+
+assemblyMergeStrategy in assembly := {
+  case PathList("META-INF", xs @ _*) =>
+    (xs map {_.toLowerCase}) match {
+      case _ => MergeStrategy.discard
+    }
+  case PathList("javax", "servlet", xs @ _*)         => MergeStrategy.first
+  case PathList(ps @ _*) if ps.last endsWith ".html" => MergeStrategy.first
+  case "application.conf"                            => MergeStrategy.concat
+  case "unwanted.txt"                                => MergeStrategy.discard
+  case _                                             => MergeStrategy.first
+}

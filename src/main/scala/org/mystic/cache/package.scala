@@ -1,8 +1,5 @@
 package org.mystic
 
-/**
-  * Created by kperikov on 02.02.17.
-  */
 package object cache {
 
 
