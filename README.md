@@ -13,4 +13,8 @@ Other:
 2. http://data.europa.eu/euodp/en/data/
 
 
+./jdk1.8.0_121/bin/java -jar poc.jar "read" > read1.log 2>&1 &
+./jdk1.8.0_121/bin/java -jar poc.jar "write" > write.log 2>&1 &
+
+
 

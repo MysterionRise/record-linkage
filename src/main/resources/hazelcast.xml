@@ -6,13 +6,13 @@ http://www.hazelcast.com/schema/config/hazelcast-config-3.7.xsd"
 
     <network>
         <join>
-            <multicast enabled="true">
+            <multicast enabled="false">
             </multicast>
             <tcp-ip enabled="true">
-                <member>35.187.44.39</member>
-                <member>35.187.43.175</member>
-                <member>35.187.36.215</member>
-                <member>104.187.36.215</member>
+                <member>10.132.0.2</member>
+                <member>10.132.0.3</member>
+                <member>10.132.0.4</member>
+                <member>10.132.0.5</member>
             </tcp-ip>
         </join>
     </network>
