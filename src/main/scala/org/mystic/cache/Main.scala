@@ -23,7 +23,7 @@ object Main {
         val skus: IMap[Int, Int] = hz.getMap("skus")
 
         while (true) {
-          val skuToBuy = rand.nextInt(SKU_SIZE)
+          var skuToBuy = rand.nextInt(SKU_SIZE)
           var flag = true
           while (flag) {
             if (skus.containsKey(skuToBuy)) {
@@ -35,11 +35,11 @@ object Main {
                 flag = false
               }
             } else {
-              flag = false
+              skuToBuy = rand.nextInt(SKU_SIZE)
               println(s"there is no available sku for key $skuToBuy")
             }
           }
-          TimeUnit.MILLISECONDS.sleep(200)
+          TimeUnit.MILLISECONDS.sleep(100)
         }
       }
       case "write" => {
@@ -68,7 +68,7 @@ object Main {
               flag = false
             }
           }
-          TimeUnit.MILLISECONDS.sleep(200)
+          TimeUnit.MILLISECONDS.sleep(100)
         }
       }
       case _ => {
