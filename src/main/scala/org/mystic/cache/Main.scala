@@ -39,9 +39,9 @@ object Main {
         val clientConfig = new ClientConfig().setNetworkConfig(networkConfig)
         val hz = HazelcastClient.newHazelcastClient(clientConfig)
         val skus: IMap[Int, Int] = hz.getMap("skus")
-
         while (true) {
-          if (rand.nextFloat() > 0.95f) {
+          if (rand.nextFloat() > 0.50f) {
+            println("doint hotsku")
             val hotSku = rand.nextInt(SKU_SIZE / 100)
             buySku(skus, hotSku, rand)
             //hot sku case
@@ -86,8 +86,22 @@ object Main {
         val hz = HazelcastClient.newHazelcastClient(clientConfig)
         val skus: IMap[Int, Int] = hz.getMap("skus")
         for (i <- 0 to SKU_SIZE) {
-          skus.put(i, INIT_SIZE)
+          skus.putIfAbsent(rand.nextInt(SKU_SIZE), INIT_SIZE)
         }
+      }
+      case "stats" => {
+        val networkConfig = new ClientNetworkConfig().addAddress("10.132.0.2", "10.132.0.3", "10.132.0.4", "10.132.0.5")
+        val clientConfig = new ClientConfig().setNetworkConfig(networkConfig)
+        val hz = HazelcastClient.newHazelcastClient(clientConfig)
+        var cnt: Double = 0.0f
+        val skus: IMap[Int, Int] = hz.getMap("skus")
+        for (i <- 0 to SKU_SIZE) {
+          if (i % (SKU_SIZE / 100) == 0) {
+            println(s"${i / (SKU_SIZE / 100)}% complete")
+          }
+          cnt += skus.getOrDefault(i, 0)
+        }
+        println(s"sum of all skus $cnt")
       }
       case _ => {
         val hz = Hazelcast.newHazelcastInstance()
