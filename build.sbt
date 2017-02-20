@@ -12,7 +12,7 @@ libraryDependencies += "com.hazelcast" % "hazelcast" % "3.7.4"
 
 libraryDependencies += "com.hazelcast" % "hazelcast-client" % "3.7.4"
 
-/*libraryDependencies += "org.apache.kafka" %% "kafka" % "0.10.1.1"
+libraryDependencies += "org.apache.kafka" %% "kafka" % "0.10.1.1"
 
 libraryDependencies += "org.apache.spark" %% "spark-streaming" % "2.1.0"
 
@@ -25,7 +25,7 @@ libraryDependencies += "org.scalaj" %% "scalaj-http" % "2.3.0"
 libraryDependencies += "org.twitter4j" % "twitter4j-stream" % "4.0.6"
 
 // unsure if it's really needed, tbd
-libraryDependencies += "org.twitter4j" % "twitter4j-http2-support" % "4.0.6"*/
+libraryDependencies += "org.twitter4j" % "twitter4j-http2-support" % "4.0.6"
 
 assemblyJarName in assembly := "poc.jar"
 
