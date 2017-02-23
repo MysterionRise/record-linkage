@@ -20,12 +20,23 @@ case class TwitterStreamProducer(topicName: String, props: Properties, accessTok
   val listener = new StatusListener {
     override def onStallWarning(warning: StallWarning) = ???
 
-    override def onDeletionNotice(statusDeletionNotice: StatusDeletionNotice) = ???
+    override def onDeletionNotice(statusDeletionNotice: StatusDeletionNotice) = {
+      // someone decided to delete tweet for some reason
+      val userID = statusDeletionNotice.getUserId
+      val statusID = statusDeletionNotice.getStatusId
+      // send message to kafka
+    }
 
     override def onScrubGeo(userId: Long, upToStatusId: Long) = ???
 
     override def onStatus(status: Status) = {
+      // someone posted the tweet
+      val userID = status.getUser.getId
+      val statusID = status.getId
+      val text = status.getText
       println(status.getText)
+      //send message to kafka
+
     }
 
     override def onTrackLimitationNotice(numberOfLimitedStatuses: Int) = ???
