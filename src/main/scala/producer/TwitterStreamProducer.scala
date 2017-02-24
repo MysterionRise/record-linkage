@@ -2,6 +2,8 @@ package org.mystic.producer
 
 import java.util.Properties
 
+import org.apache.kafka.clients.producer.ProducerRecord
+import producer.Tweet
 import twitter4j._
 import twitter4j.auth.AccessToken
 
@@ -24,6 +26,8 @@ case class TwitterStreamProducer(topicName: String, props: Properties, accessTok
       // someone decided to delete tweet for some reason
       val userID = statusDeletionNotice.getUserId
       val statusID = statusDeletionNotice.getStatusId
+      val record = new ProducerRecord[Long, Tweet](topicName, statusID, Tweet(userID, ""))
+      //producer.send(record)
       // send message to kafka
     }
 
@@ -34,9 +38,9 @@ case class TwitterStreamProducer(topicName: String, props: Properties, accessTok
       val userID = status.getUser.getId
       val statusID = status.getId
       val text = status.getText
-      println(status.getText)
-      //send message to kafka
-
+      val record = new ProducerRecord[Long, Tweet](topicName, statusID, Tweet(userID, text))
+      //producer.send(record)
+      // send message to kafka
     }
 
     override def onTrackLimitationNotice(numberOfLimitedStatuses: Int) = ???
