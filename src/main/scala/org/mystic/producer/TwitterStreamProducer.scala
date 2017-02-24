@@ -3,7 +3,7 @@ package org.mystic.producer
 import java.util.Properties
 
 import org.apache.kafka.clients.producer.ProducerRecord
-import producer.Tweet
+import Tweet
 import twitter4j._
 import twitter4j.auth.AccessToken
 
