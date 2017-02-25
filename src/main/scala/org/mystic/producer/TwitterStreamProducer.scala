@@ -2,12 +2,13 @@ package org.mystic.producer
 
 import java.util.Properties
 
-import org.apache.kafka.clients.producer.ProducerRecord
-import Tweet
+import org.apache.kafka.clients.producer.{KafkaProducer, ProducerRecord}
 import twitter4j._
 import twitter4j.auth.AccessToken
 
 case class TwitterStreamProducer(topicName: String, props: Properties, accessToken: AccessToken, consumerKey: String, consumerSecret: String) extends KafkaStreamProducer {
+
+  val producer = new KafkaProducer[String, String](props)
 
   override def runStream() = {
     val twitterStream = new TwitterStreamFactory().getInstance()
@@ -26,7 +27,8 @@ case class TwitterStreamProducer(topicName: String, props: Properties, accessTok
       // someone decided to delete tweet for some reason
       val userID = statusDeletionNotice.getUserId
       val statusID = statusDeletionNotice.getStatusId
-      val record = new ProducerRecord[Long, Tweet](topicName, statusID, Tweet(userID, ""))
+      val record = new ProducerRecord[String, String](topicName, statusID.toString, "")
+      producer.send(record)
       //producer.send(record)
       // send message to kafka
     }
@@ -38,14 +40,16 @@ case class TwitterStreamProducer(topicName: String, props: Properties, accessTok
       val userID = status.getUser.getId
       val statusID = status.getId
       val text = status.getText
-      val record = new ProducerRecord[Long, Tweet](topicName, statusID, Tweet(userID, text))
-      //producer.send(record)
+      val record = new ProducerRecord[String, String](topicName, statusID.toString, text)
+      producer.send(record)
       // send message to kafka
     }
 
     override def onTrackLimitationNotice(numberOfLimitedStatuses: Int) = ???
 
-    override def onException(ex: Exception) = ???
+    override def onException(ex: Exception) = {
+      println(ex)
+    }
   }
 
 }

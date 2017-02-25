@@ -4,6 +4,4 @@ trait KafkaStreamProducer {
 
   def runStream()
 
-
-
 }

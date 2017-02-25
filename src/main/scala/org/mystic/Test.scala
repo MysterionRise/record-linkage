@@ -19,13 +19,12 @@ object Test {
 
     props.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer")
     props.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer")
-    val producer = new KafkaProducer[String, String](props)
 
     val twittterProducer = new TwitterStreamProducer("tweets", props, loadAccessToken(), CONSUMER_KEY, CONSUMER_SECRET)
     twittterProducer.runStream()
 
-    val meetupStreamProducer = new MeetupStreamProducer("meetups", MEETUP_URI, props)
-    meetupStreamProducer.runStream()
+    /*val meetupStreamProducer = new MeetupStreamProducer("meetups", MEETUP_URI, props)
+    meetupStreamProducer.runStream()*/
 
   }
 }

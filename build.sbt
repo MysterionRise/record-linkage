@@ -10,13 +10,13 @@ libraryDependencies += "com.hazelcast" % "hazelcast" % "3.7.4"
 
 libraryDependencies += "com.hazelcast" % "hazelcast-client" % "3.7.4"
 
-libraryDependencies += "org.apache.kafka" %% "kafka" % "0.10.1.1"
+libraryDependencies += "org.apache.kafka" %% "kafka" % "0.9.0.1"
 
 libraryDependencies += "org.apache.spark" %% "spark-streaming" % "2.1.0"
 
 libraryDependencies += "org.apache.spark" %% "spark-core" % "2.1.0"
 
-libraryDependencies += "org.apache.cassandra" % "cassandra-all" % "3.9"
+//libraryDependencies += "org.apache.cassandra" % "cassandra-all" % "3.9"
 
 libraryDependencies += "org.scalaj" %% "scalaj-http" % "2.3.0"
 
