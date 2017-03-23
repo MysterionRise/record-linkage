@@ -3,7 +3,7 @@ package org.mystic
 import java.util.Properties
 
 import org.apache.kafka.clients.producer.KafkaProducer
-import org.mystic.producer.{MeetupStreamProducer, TwitterStreamProducer}
+import org.mystic.producer.{MeetupStreamProducer, SherdogEventsStreamProducer, TwitterStreamProducer}
 import twitter4j.auth.AccessToken
 
 object Test {
@@ -20,8 +20,11 @@ object Test {
     props.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer")
     props.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer")
 
-    val twittterProducer = new TwitterStreamProducer("tweets", props, loadAccessToken(), CONSUMER_KEY, CONSUMER_SECRET)
-    twittterProducer.runStream()
+    val sherdogEventsStreamProducer = new SherdogEventsStreamProducer()
+    sherdogEventsStreamProducer.runStream()
+
+    /*val twittterProducer = new TwitterStreamProducer("tweets", props, loadAccessToken(), CONSUMER_KEY, CONSUMER_SECRET)
+    twittterProducer.runStream()*/
 
     /*val meetupStreamProducer = new MeetupStreamProducer("meetups", MEETUP_URI, props)
     meetupStreamProducer.runStream()*/
