@@ -9,9 +9,14 @@ situations.
 
 Generally speaking record linkage problem is a problem of identifying same entities in a dataset (often set of different datasets)
 
-## Entity linking
+# Entity linking
 
-Entity linking is a subset of broader Record Linkage problem, where entites are linked based on their names. E.g. John Kennedy needs to be considered same entity as J. F. K or Джон Кеннеди
+Entity linking is a subset of broader Record Linkage problem, where entites are linked based on their names. E.g. John Kennedy needs to be considered same entity as J. F. K or Джон Кеннеди. Ideally, some relevancy or similarity score could be provided to make a final decision. 
+
+Entity linking could be achieved through several approaches:
+
+- Text-based approaches, which make use of textual features extracted from large text corpora
+- Graph-based approaches, which exploit the structure of knowledge graphs to represent the context and the relation of entities
 
 # Useful resources:
 
