@@ -15,43 +15,175 @@ This repository focuses on **record linkage** - the process of identifying pairs
 
 **Entity Linking**: A subset of record linkage focused specifically on linking entities based on their names (e.g., "John Kennedy", "J. F. K", "Джон Кеннеди" as the same person).
 
-## Current Repository State
+## Implementation Approach
 
-The repository is currently in a **documentation and planning phase**. Previous implementations in Python and Scala have been removed (see git history). The .gitignore indicates planned support for:
-- JVM languages (Scala/Java) using sbt or Gradle
-- Haskell
-- R
+The repository implements a **modern, ML-powered record linkage system** with an interactive UI for demonstrating entity matching with explainability.
 
-## Planned Approaches
+### Architecture
 
-### Name Matching (see name-matching/README.md)
+**Three-tier system**:
+- **Frontend**: React 18+ with TypeScript, Material-UI/Ant Design
+- **Backend**: FastAPI (Python async web framework)
+- **ML Pipeline**: BERT-based entity matching with SHAP/LIME explainability
 
-Entity linking via information retrieval:
-1. **OpenSearch installation** - Using search infrastructure
-2. **Zentity plugin** - Entity resolution plugin for Elasticsearch/OpenSearch
-3. **Search strategies**:
-   - Synonym files approach (large synonym dictionaries for name variations)
-   - Knowledge graph approach (exploiting entity relationships)
+See [IMPLEMENTATION_PLAN.md](./IMPLEMENTATION_PLAN.md) for complete architecture details.
 
-### General Approaches (see main README.md)
+## Technology Stack
 
-- **Text-based approaches**: Extract textual features from large corpora
-- **Graph-based approaches**: Exploit knowledge graph structure to represent entity context and relationships
+### Backend (Python)
+- **Framework**: FastAPI with Pydantic v2 for validation
+- **ML Libraries**:
+  - `transformers` - Hugging Face transformers library
+  - `sentence-transformers` - For BERT-based embeddings
+  - `torch` - PyTorch 2.x
+  - `shap` - Model explainability (primary)
+  - `lime` - Alternative explainability method
+- **Data**: pandas, numpy, scikit-learn, recordlinkage
 
-## Key Resources
+### Frontend (TypeScript)
+- **Framework**: React 18+ with TypeScript
+- **Build Tool**: Vite
+- **Visualization**: D3.js or Recharts for match confidence
+- **State**: React Query + Zustand
 
-The README.md contains links to important academic papers and resources on record linkage:
-- Bristol University probabilistic linkage guide
-- ArXiv papers on entity linking
-- O'Reilly presentations on record linkage
-- UCI Machine Learning Repository datasets for record linkage
-- Febrl (Freely Extensible Biomedical Record Linkage) documentation
+### Datasets
+Primary datasets for development and demo:
+1. **UCI Record Linkage Comparison Patterns** (~574K pairs) - benchmark dataset
+2. **DBLP-ACM** - academic publications (clean data)
+3. **DBLP-Scholar (Dirty)** - same with data quality issues
+4. **Walmart-Amazon** - e-commerce product matching (~10K pairs)
+
+## Development Commands
+
+### Backend Setup and Development
+```bash
+cd backend
+python -m venv venv
+source venv/bin/activate  # Windows: venv\Scripts\activate
+pip install -r requirements.txt
+
+# Run development server
+uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+
+# Train model
+python scripts/train_model.py --dataset uci --epochs 10
+
+# Run tests
+pytest tests/ -v
+
+# Code quality
+black app/
+flake8 app/
+mypy app/
+```
+
+### Frontend Setup and Development
+```bash
+cd frontend
+npm install
+
+# Development server
+npm run dev
+
+# Build for production
+npm run build
+
+# Run tests
+npm test
+
+# Linting
+npm run lint
+```
+
+### Docker
+```bash
+# Build and run entire stack
+docker-compose up --build
+
+# Run specific service
+docker-compose up backend
+docker-compose up frontend
+```
+
+## Key Implementation Details
+
+### BERT-based Entity Matching
+The system uses sentence-transformers with a Siamese network architecture:
+1. Serialize record pairs into text format
+2. Generate embeddings using pre-trained BERT
+3. Compute similarity (cosine/dot product)
+4. Fine-tune on labeled dataset for domain adaptation
+
+**Model**: `sentence-transformers/all-MiniLM-L6-v2` (lightweight) or `ditto-bert-base`
+
+### Explainability
+**SHAP** (primary): Token-level attribution showing why records matched
+- Force plots for individual predictions
+- Feature importance aggregated by field
+- UI shows highlighted tokens (green = match evidence, red = no-match)
+
+**LIME** (complementary): Instance-level explanations
+- Top contributing features
+- Counterfactual explanations
+
+### File Structure
+```
+record-linkage/
+├── backend/           # FastAPI application
+│   ├── app/
+│   │   ├── api/      # API endpoints
+│   │   ├── ml/       # ML models and training
+│   │   └── core/     # Configuration
+│   └── tests/
+├── frontend/          # React application
+│   ├── src/
+│   │   ├── components/
+│   │   └── services/
+├── notebooks/         # Jupyter notebooks for experiments
+├── scripts/          # Utility scripts
+└── data/             # Datasets
+```
+
+## ML Approach
+
+**Approach**: BERT-based entity matching (state-of-the-art as of 2024-2025)
+- Pre-trained language models fine-tuned on record pairs
+- Contrastive learning or binary classification
+- Training metrics: Precision, Recall, F1-score, ROC-AUC
+- Inference: < 200ms per pair, SHAP explanations in < 500ms
+
+**Training Pipeline**: See `backend/app/ml/training.py`
+**Inference Pipeline**: See `backend/app/ml/inference.py`
+**Explainability**: See `backend/app/ml/explainability.py`
 
 ## Development Notes
 
-When implementing code in this repository:
-- The focus is on entity resolution and record linkage algorithms
-- Multiple language implementations may coexist (based on .gitignore patterns)
-- Consider both text-based and graph-based approaches
-- Entity linking solutions should handle name variations, transliterations, and abbreviations
-- OpenSearch/Elasticsearch integration is a planned implementation path
+- **API Documentation**: Auto-generated at `http://localhost:8000/docs` (Swagger UI)
+- **Model Files**: Saved in `backend/models/` directory
+- **Datasets**: Downloaded via `scripts/download_datasets.py`
+- **Notebooks**: Use for experimentation before integrating into main codebase
+- **Code Style**:
+  - Python: Black formatter, type hints required
+  - TypeScript: ESLint + Prettier
+- **Testing**: Write tests for all ML pipeline components
+
+## UI Features
+
+1. **Dataset Selection**: Upload CSV or select from pre-loaded datasets
+2. **Record Comparison**: Side-by-side view with match probability
+3. **Explainability Dashboard**: Interactive SHAP visualizations
+4. **Batch Processing**: Upload two datasets for deduplication
+5. **Analytics**: Precision/recall metrics, confidence distributions
+
+## Key Resources
+
+Academic foundations (see README.md for full list):
+- "Deep Learning for Entity Matching: A Design Space Exploration" (2018)
+- "Dual-Objective Fine-Tuning of BERT for Entity Matching" (VLDB 2021)
+- "Analyzing How BERT Performs Entity Matching" (VLDB 2022)
+- UCI Machine Learning Repository: Record Linkage datasets
+
+Modern approaches:
+- BERT-based entity matching (replacing traditional text/graph methods)
+- Transformer architectures for contextualized embeddings
+- SHAP/LIME for model interpretability
