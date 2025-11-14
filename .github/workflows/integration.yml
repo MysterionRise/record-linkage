@@ -24,7 +24,7 @@ jobs:
 
     - name: Start services with docker-compose
       run: |
-        docker-compose up -d
+        docker compose up -d
         echo "Waiting for services to be ready..."
         sleep 45
 
@@ -72,12 +72,12 @@ jobs:
 
     - name: View backend logs
       if: failure()
-      run: docker-compose logs backend
+      run: docker compose logs backend
 
     - name: View frontend logs
       if: failure()
-      run: docker-compose logs frontend
+      run: docker compose logs frontend
 
     - name: Stop services
       if: always()
-      run: docker-compose down -v
+      run: docker compose down -v

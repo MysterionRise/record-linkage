@@ -75,11 +75,11 @@ jobs:
         mkdir -p data/raw data/processed backend/models_saved
 
     - name: Build with docker-compose
-      run: docker-compose build
+      run: docker compose build
 
     - name: Start services
       run: |
-        docker-compose up -d
+        docker compose up -d
         sleep 30
 
     - name: Check backend health
@@ -92,8 +92,8 @@ jobs:
 
     - name: View logs
       if: failure()
-      run: docker-compose logs
+      run: docker compose logs
 
     - name: Stop services
       if: always()
-      run: docker-compose down
+      run: docker compose down
