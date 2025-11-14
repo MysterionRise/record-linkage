@@ -46,9 +46,7 @@ async def predict_match(
 
     explanation = None
     if include_explanation:
-        explanation = _generate_placeholder_explanation(
-            record_pair, explanation_method
-        )
+        explanation = _generate_placeholder_explanation(record_pair, explanation_method)
 
     return MatchResult(
         prediction=prediction,
@@ -162,9 +160,7 @@ def _get_confidence_level(similarity: float) -> str:
         return "Low"
 
 
-def _generate_placeholder_explanation(
-    record_pair: RecordPair, method: str
-) -> Explanation:
+def _generate_placeholder_explanation(record_pair: RecordPair, method: str) -> Explanation:
     """
     Generate a placeholder explanation.
     This will be replaced with actual SHAP/LIME explanations.

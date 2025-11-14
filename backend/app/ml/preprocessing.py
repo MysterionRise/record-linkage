@@ -37,9 +37,7 @@ def serialize_record(record: RecordBase, fields_order: List[str] = None) -> str:
     return " | ".join(parts)
 
 
-def serialize_record_pair(
-    record_pair: RecordPair, add_sep: bool = True
-) -> str:
+def serialize_record_pair(record_pair: RecordPair, add_sep: bool = True) -> str:
     """
     Serialize a record pair for BERT encoding.
 
@@ -51,9 +49,7 @@ def serialize_record_pair(
         str: Serialized record pair
     """
     # Get consistent field order from both records
-    all_fields = set(record_pair.record_a.fields.keys()) | set(
-        record_pair.record_b.fields.keys()
-    )
+    all_fields = set(record_pair.record_a.fields.keys()) | set(record_pair.record_b.fields.keys())
     fields_order = sorted(all_fields)
 
     text_a = serialize_record(record_pair.record_a, fields_order)
@@ -113,9 +109,7 @@ def extract_field_pairs(
     return field_pairs
 
 
-def preprocess_dataset(
-    records: List[RecordBase], normalize: bool = True
-) -> List[RecordBase]:
+def preprocess_dataset(records: List[RecordBase], normalize: bool = True) -> List[RecordBase]:
     """
     Preprocess a dataset of records.
 

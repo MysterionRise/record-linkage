@@ -43,9 +43,7 @@ async def get_dataset_info(dataset_name: str, include_samples: bool = True):
         dataset_info = load_dataset(dataset_name, include_samples=include_samples)
         return dataset_info
     except FileNotFoundError:
-        raise HTTPException(
-            status_code=404, detail=f"Dataset '{dataset_name}' not found"
-        )
+        raise HTTPException(status_code=404, detail=f"Dataset '{dataset_name}' not found")
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
@@ -62,9 +60,7 @@ async def upload_dataset(file: UploadFile = File(...)):
         dict: Upload status and dataset name
     """
     if not file.filename.endswith(".csv"):
-        raise HTTPException(
-            status_code=400, detail="Only CSV files are supported"
-        )
+        raise HTTPException(status_code=400, detail="Only CSV files are supported")
 
     try:
         # Save uploaded file

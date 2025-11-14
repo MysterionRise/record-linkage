@@ -26,13 +26,9 @@ class RecordLinkageExplainer:
             model: The entity matching model to explain
         """
         self.model = model
-        self.lime_explainer = LimeTextExplainer(
-            class_names=["No Match", "Match"]
-        )
+        self.lime_explainer = LimeTextExplainer(class_names=["No Match", "Match"])
 
-    def explain_with_shap(
-        self, record_pair: RecordPair, num_samples: int = 100
-    ) -> Explanation:
+    def explain_with_shap(self, record_pair: RecordPair, num_samples: int = 100) -> Explanation:
         """
         Generate SHAP-based explanation for a prediction.
 
@@ -91,9 +87,7 @@ class RecordLinkageExplainer:
             )
 
         # Sort by absolute contribution
-        feature_contributions.sort(
-            key=lambda x: abs(x.contribution), reverse=True
-        )
+        feature_contributions.sort(key=lambda x: abs(x.contribution), reverse=True)
 
         return Explanation(
             method="SHAP",
@@ -102,9 +96,7 @@ class RecordLinkageExplainer:
             top_negative_features=top_negative[:5],
         )
 
-    def explain_with_lime(
-        self, record_pair: RecordPair, num_features: int = 10
-    ) -> Explanation:
+    def explain_with_lime(self, record_pair: RecordPair, num_features: int = 10) -> Explanation:
         """
         Generate LIME-based explanation for a prediction.
 
@@ -157,10 +149,7 @@ class RecordLinkageExplainer:
                 # Find relevant weights for this field
                 field_contribution = 0.0
                 for word, weight in weights:
-                    if (
-                        word.lower() in value_a.lower()
-                        or word.lower() in value_b.lower()
-                    ):
+                    if word.lower() in value_a.lower() or word.lower() in value_b.lower():
                         field_contribution += weight
 
                 feature_contributions.append(
@@ -173,20 +162,14 @@ class RecordLinkageExplainer:
                 )
 
             # Sort by contribution
-            feature_contributions.sort(
-                key=lambda x: abs(x.contribution), reverse=True
-            )
+            feature_contributions.sort(key=lambda x: abs(x.contribution), reverse=True)
 
-            top_positive = [
-                fc.field_name
-                for fc in feature_contributions
-                if fc.contribution > 0
-            ][:5]
-            top_negative = [
-                fc.field_name
-                for fc in feature_contributions
-                if fc.contribution < 0
-            ][:5]
+            top_positive = [fc.field_name for fc in feature_contributions if fc.contribution > 0][
+                :5
+            ]
+            top_negative = [fc.field_name for fc in feature_contributions if fc.contribution < 0][
+                :5
+            ]
 
             return Explanation(
                 method="LIME",
@@ -200,9 +183,7 @@ class RecordLinkageExplainer:
             print(f"LIME explanation failed: {e}")
             return self.explain_with_shap(record_pair)
 
-    def explain(
-        self, record_pair: RecordPair, method: str = "shap"
-    ) -> Explanation:
+    def explain(self, record_pair: RecordPair, method: str = "shap") -> Explanation:
         """
         Generate explanation using specified method.
 

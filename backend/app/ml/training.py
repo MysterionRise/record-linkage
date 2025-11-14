@@ -115,9 +115,7 @@ def train_model(
     model.load_model()
 
     # Create data loader
-    train_dataloader = DataLoader(
-        train_examples, shuffle=True, batch_size=batch_size
-    )
+    train_dataloader = DataLoader(train_examples, shuffle=True, batch_size=batch_size)
 
     # Define loss function
     train_loss = losses.CosineSimilarityLoss(model.model)
@@ -200,18 +198,10 @@ def evaluate_model(
     predictions = [1 if sim >= threshold else 0 for sim in similarities]
 
     # Calculate metrics
-    true_positives = sum(
-        p == 1 and t == 1 for p, t in zip(predictions, true_labels)
-    )
-    false_positives = sum(
-        p == 1 and t == 0 for p, t in zip(predictions, true_labels)
-    )
-    false_negatives = sum(
-        p == 0 and t == 1 for p, t in zip(predictions, true_labels)
-    )
-    true_negatives = sum(
-        p == 0 and t == 0 for p, t in zip(predictions, true_labels)
-    )
+    true_positives = sum(p == 1 and t == 1 for p, t in zip(predictions, true_labels))
+    false_positives = sum(p == 1 and t == 0 for p, t in zip(predictions, true_labels))
+    false_negatives = sum(p == 0 and t == 1 for p, t in zip(predictions, true_labels))
+    true_negatives = sum(p == 0 and t == 0 for p, t in zip(predictions, true_labels))
 
     precision = (
         true_positives / (true_positives + false_positives)
@@ -223,11 +213,7 @@ def evaluate_model(
         if (true_positives + false_negatives) > 0
         else 0
     )
-    f1 = (
-        2 * (precision * recall) / (precision + recall)
-        if (precision + recall) > 0
-        else 0
-    )
+    f1 = 2 * (precision * recall) / (precision + recall) if (precision + recall) > 0 else 0
     accuracy = (true_positives + true_negatives) / len(true_labels)
 
     metrics = {

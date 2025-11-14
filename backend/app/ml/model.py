@@ -91,15 +91,11 @@ class EntityMatchingModel:
         embedding_b = embeddings[1]
 
         # Compute cosine similarity
-        similarity = torch.cosine_similarity(
-            embedding_a.unsqueeze(0), embedding_b.unsqueeze(0)
-        )
+        similarity = torch.cosine_similarity(embedding_a.unsqueeze(0), embedding_b.unsqueeze(0))
 
         return similarity.item(), embedding_a, embedding_b
 
-    def predict_batch(
-        self, text_pairs: List[Tuple[str, str]]
-    ) -> List[float]:
+    def predict_batch(self, text_pairs: List[Tuple[str, str]]) -> List[float]:
         """
         Predict similarity for a batch of text pairs.
 

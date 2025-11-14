@@ -39,9 +39,7 @@ async def predict_record_match(
         )
         return result
     except Exception as e:
-        raise HTTPException(
-            status_code=500, detail=f"Prediction failed: {str(e)}"
-        )
+        raise HTTPException(status_code=500, detail=f"Prediction failed: {str(e)}")
 
 
 @router.post("/batch", response_model=BatchMatchResult)
@@ -64,9 +62,7 @@ async def batch_match_records(request: BatchMatchRequest):
         )
         return result
     except Exception as e:
-        raise HTTPException(
-            status_code=500, detail=f"Batch matching failed: {str(e)}"
-        )
+        raise HTTPException(status_code=500, detail=f"Batch matching failed: {str(e)}")
 
 
 @router.get("/threshold/optimize")
@@ -81,6 +77,4 @@ async def optimize_threshold(dataset_name: str):
         dict: Optimal threshold and metrics
     """
     # TODO: Implement threshold optimization
-    raise HTTPException(
-        status_code=501, detail="Threshold optimization not yet implemented"
-    )
+    raise HTTPException(status_code=501, detail="Threshold optimization not yet implemented")
