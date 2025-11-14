@@ -1,5 +1,12 @@
 # Record Linkage - Modern ML Implementation
 
+[![Backend CI](https://github.com/MysterionRise/record-linkage/actions/workflows/backend-ci.yml/badge.svg)](https://github.com/MysterionRise/record-linkage/actions/workflows/backend-ci.yml)
+[![Frontend CI](https://github.com/MysterionRise/record-linkage/actions/workflows/frontend-ci.yml/badge.svg)](https://github.com/MysterionRise/record-linkage/actions/workflows/frontend-ci.yml)
+[![Docker Build](https://github.com/MysterionRise/record-linkage/actions/workflows/docker.yml/badge.svg)](https://github.com/MysterionRise/record-linkage/actions/workflows/docker.yml)
+[![Integration Tests](https://github.com/MysterionRise/record-linkage/actions/workflows/integration.yml/badge.svg)](https://github.com/MysterionRise/record-linkage/actions/workflows/integration.yml)
+[![Python 3.12+](https://img.shields.io/badge/python-3.12%2B-blue.svg)](https://www.python.org/downloads/)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+
 A modern, ML-powered record linkage system with an interactive UI for demonstrating entity matching with explainability.
 
 ## Overview
@@ -77,7 +84,39 @@ record-linkage/
 
 ## Development
 
-See [CLAUDE.md](./CLAUDE.md) for detailed development guidelines.
+### Requirements
+- **Python**: 3.12 or 3.13 (3.14 support coming soon)
+- **Node.js**: 20+
+- **Docker**: Latest version (optional but recommended)
+
+### Testing
+```bash
+# Backend tests
+cd backend
+pytest tests/ -v
+
+# Run with coverage
+pytest tests/ --cov=app --cov-report=html
+
+# Frontend tests
+cd frontend
+npm test
+```
+
+### Code Quality
+```bash
+# Backend formatting and linting
+cd backend
+black app/
+flake8 app/
+mypy app/
+
+# Frontend linting
+cd frontend
+npm run lint
+```
+
+See [CLAUDE.md](./CLAUDE.md) for detailed development guidelines and [.github/workflows/README.md](./.github/workflows/README.md) for CI/CD documentation.
 
 ## Background
 
