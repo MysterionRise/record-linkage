@@ -28,6 +28,7 @@ jobs:
         context: ./backend
         file: ./backend/Dockerfile
         push: false
+        load: true  # Load image into Docker daemon for testing
         tags: record-linkage-backend:test
         cache-from: type=gha
         cache-to: type=gha,mode=max
@@ -58,9 +59,20 @@ jobs:
         context: ./frontend
         file: ./frontend/Dockerfile
         push: false
+        load: true  # Load image into Docker daemon
         tags: record-linkage-frontend:test
         cache-from: type=gha
         cache-to: type=gha,mode=max
+
+    - name: Test frontend image
+      run: |
+        docker run --rm -d --name test-frontend \
+          -p 5173:5173 \
+          record-linkage-frontend:test
+        sleep 10
+        # Test that server is running
+        docker ps | grep test-frontend
+        docker stop test-frontend
 
   docker-compose:
     name: Test Docker Compose
