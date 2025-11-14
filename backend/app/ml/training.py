@@ -1,6 +1,5 @@
 """Training pipeline for entity matching model."""
 
-import torch
 from torch.utils.data import Dataset, DataLoader
 from sentence_transformers import InputExample, losses
 from typing import List, Tuple

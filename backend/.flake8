@@ -12,11 +12,15 @@ exclude =
     .pytest_cache,
     .mypy_cache
 
-ignore =
-    E203,  # whitespace before ':'
-    E501,  # line too long (handled by black)
-    W503,  # line break before binary operator
-    E402,  # module level import not at top of file
+# Flake8 configuration
+# Inline comments not allowed in ignore list
+
+# Ignored error codes:
+# E203 - whitespace before ':'
+# E501 - line too long (handled by black)
+# W503 - line break before binary operator
+# E402 - module level import not at top of file
+ignore = E203,E501,W503,E402
 
 per-file-ignores =
     __init__.py:F401

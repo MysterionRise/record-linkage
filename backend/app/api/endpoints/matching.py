@@ -1,7 +1,6 @@
 """Entity matching endpoints."""
 
 from fastapi import APIRouter, HTTPException
-from typing import Optional
 
 from app.models.schemas import (
     RecordPair,

@@ -3,10 +3,9 @@
 from typing import List
 from fastapi import APIRouter, HTTPException, UploadFile, File
 import os
-import json
 
 from app.core.config import settings
-from app.models.schemas import DatasetInfo, RecordBase
+from app.models.schemas import DatasetInfo
 from app.utils.data_loader import load_dataset, list_available_datasets
 
 router = APIRouter()

@@ -1,15 +1,12 @@
 """Explainability utilities using SHAP and LIME."""
 
-import shap
 import numpy as np
-from typing import List, Tuple, Dict
 from lime.lime_text import LimeTextExplainer
 
 from app.models.schemas import (
     RecordPair,
     Explanation,
     FeatureContribution,
-    TokenContribution,
 )
 from app.ml.preprocessing import serialize_record_pair, extract_field_pairs
 from app.ml.model import EntityMatchingModel
@@ -39,9 +36,6 @@ class RecordLinkageExplainer:
         Returns:
             Explanation: SHAP-based explanation
         """
-        # Serialize the record pair
-        text = serialize_record_pair(record_pair, add_sep=True)
-
         # Get field pairs for field-level attribution
         field_pairs = extract_field_pairs(record_pair)
 

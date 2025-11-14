@@ -1,7 +1,6 @@
 """BERT-based entity matching model."""
 
 import torch
-import torch.nn as nn
 from sentence_transformers import SentenceTransformer
 from typing import Tuple, List
 import os

@@ -77,7 +77,6 @@ async def batch_predict(
 
     match_results = []
     matches_found = 0
-    total_comparisons = len(dataset_a) * len(dataset_b)
 
     # Limit comparisons for demo (avoid O(n²) explosion)
     max_comparisons = 1000
