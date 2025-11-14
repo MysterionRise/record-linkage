@@ -83,3 +83,49 @@ out/
 gradle/*
 gradlew
 gradlew.bat
+
+# Python specific
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+*.egg-info/
+.eggs/
+*.egg
+.pytest_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+.env
+.venv
+
+# Node.js / React specific
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+dist/
+.DS_Store
+*.local
+
+# IDE
+.vscode/
+*.swp
+*.swo
+
+# Data and models
+data/raw/*
+!data/raw/.gitkeep
+data/processed/*
+!data/processed/.gitkeep
+backend/models_saved/*
+!backend/models_saved/.gitkeep
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb
