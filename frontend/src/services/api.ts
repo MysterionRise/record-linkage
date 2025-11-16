@@ -77,13 +77,11 @@ class RecordLinkageAPI {
   // Matching
   async predictMatch(
     recordPair: RecordPair,
-    includeExplanation: boolean = true,
-    explanationMethod: 'shap' | 'lime' = 'shap'
+    includeExplanation: boolean = true
   ): Promise<MatchResult> {
     const response = await this.client.post<MatchResult>('/match/predict', recordPair, {
       params: {
         include_explanation: includeExplanation,
-        explanation_method: explanationMethod,
       },
     });
     return response.data;

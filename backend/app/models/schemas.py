@@ -47,7 +47,7 @@ class TokenContribution(BaseModel):
 class Explanation(BaseModel):
     """Model for match explanation."""
 
-    method: str = Field(..., description="SHAP or LIME")
+    method: str = Field(..., description="Explanation method (SHAP)")
     feature_contributions: List[FeatureContribution]
     token_contributions: Optional[List[TokenContribution]] = None
     top_positive_features: List[str]

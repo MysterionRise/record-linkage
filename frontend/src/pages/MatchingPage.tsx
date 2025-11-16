@@ -35,7 +35,7 @@ export default function MatchingPage() {
   })
 
   const matchMutation = useMutation({
-    mutationFn: (pair: RecordPair) => api.predictMatch(pair, true, 'shap'),
+    mutationFn: (pair: RecordPair) => api.predictMatch(pair, true),
   })
 
   const handleFieldChange = (

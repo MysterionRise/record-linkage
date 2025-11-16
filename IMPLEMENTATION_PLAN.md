@@ -29,7 +29,7 @@ A modern, ML-powered record linkage system with interactive UI for demonstrating
 │         ML Pipeline Layer               │
 │  - BERT-based Entity Matching           │
 │  - Model Training/Inference             │
-│  - SHAP/LIME Explainability             │
+│  - SHAP Explainability                  │
 │  - Feature Engineering                  │
 └─────────────────────────────────────────┘
 ```
@@ -61,8 +61,7 @@ A modern, ML-powered record linkage system with interactive UI for demonstrating
   - `ditto-bert-base` or fine-tuned BERT models
 - **Explainability**:
   - `shap` - SHapley Additive exPlanations
-  - `lime` - Local Interpretable Model-agnostic Explanations
-  - `transformers-interpret` - BERT-specific interpretability
+  - `transformers-interpret` - BERT-specific interpretability (optional)
 - **Data Processing**: pandas, numpy, scikit-learn
 - **Record Linkage**: `recordlinkage` library (traditional methods baseline)
 
@@ -211,26 +210,7 @@ shap_values = explainer([text_pair])
 - Token-level highlighting (red = push towards no-match, green = push towards match)
 - Feature importance bar charts
 - Interactive exploration of why pairs matched/didn't match
-
-### LIME (Complementary Method)
-
-**Implementation**:
-```python
-from lime.lime_text import LimeTextExplainer
-
-explainer = LimeTextExplainer(class_names=['No Match', 'Match'])
-
-# Explain instance
-exp = explainer.explain_instance(
-    text_pair,
-    model_predict_fn,
-    num_features=10
-)
-```
-
-**UI Display**:
 - Top contributing features
-- Counterfactual explanations ("If this field were different...")
 
 ### Custom Explainability Features
 
@@ -332,7 +312,6 @@ exp = explainer.explain_instance(
 
 ### Phase 4: Explainability (Week 4-5)
 - [ ] Integrate SHAP for model explanations
-- [ ] Implement LIME as alternative explainer
 - [ ] Create custom field-level attribution
 - [ ] Build explainability visualization components
 - [ ] Add interactive explanation features to UI

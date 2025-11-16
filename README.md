@@ -11,12 +11,12 @@ A modern, ML-powered record linkage system with an interactive UI for demonstrat
 
 ## Overview
 
-Record linkage is the process of identifying pairs of records that refer to the same entity. This implementation uses state-of-the-art BERT-based transformers with SHAP/LIME explainability.
+Record linkage is the process of identifying pairs of records that refer to the same entity. This implementation uses state-of-the-art BERT-based transformers with SHAP explainability.
 
 **Key Features:**
 - BERT-based entity matching with confidence scores
 - Interactive React UI with real-time matching
-- SHAP and LIME explanations for interpretability
+- SHAP explanations for interpretability
 - Multiple pre-loaded datasets (UCI, DBLP-ACM, Walmart-Amazon)
 - Batch processing capabilities
 
@@ -78,7 +78,7 @@ record-linkage/
 
 ## Technology Stack
 
-- **Backend**: FastAPI, PyTorch, Sentence Transformers, SHAP, LIME
+- **Backend**: FastAPI, PyTorch, Sentence Transformers, SHAP
 - **Frontend**: React 18, TypeScript, Material-UI, Recharts
 - **ML**: BERT-based entity matching with `sentence-transformers/all-MiniLM-L6-v2`
 

@@ -33,7 +33,7 @@ export interface TokenContribution {
 }
 
 export interface Explanation {
-  method: 'SHAP' | 'LIME';
+  method: string;
   feature_contributions: FeatureContribution[];
   token_contributions?: TokenContribution[];
   top_positive_features: string[];
