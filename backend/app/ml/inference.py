@@ -18,18 +18,16 @@ from app.core.config import settings
 async def predict_match(
     record_pair: RecordPair,
     include_explanation: bool = True,
-    explanation_method: str = "shap",
 ) -> MatchResult:
     """
     Predict if two records match.
 
     Args:
         record_pair: Pair of records to compare
-        include_explanation: Whether to include explainability
-        explanation_method: Method for explanation (shap or lime)
+        include_explanation: Whether to include SHAP explainability
 
     Returns:
-        MatchResult: Match prediction with optional explanation
+        MatchResult: Match prediction with optional SHAP explanation
     """
     # TODO: Implement actual model inference
     # For now, return a placeholder result
@@ -46,7 +44,7 @@ async def predict_match(
 
     explanation = None
     if include_explanation:
-        explanation = _generate_placeholder_explanation(record_pair, explanation_method)
+        explanation = _generate_placeholder_explanation(record_pair)
 
     return MatchResult(
         prediction=prediction,
@@ -159,17 +157,16 @@ def _get_confidence_level(similarity: float) -> str:
         return "Low"
 
 
-def _generate_placeholder_explanation(record_pair: RecordPair, method: str) -> Explanation:
+def _generate_placeholder_explanation(record_pair: RecordPair) -> Explanation:
     """
     Generate a placeholder explanation.
-    This will be replaced with actual SHAP/LIME explanations.
+    This will be replaced with actual SHAP explanations.
 
     Args:
         record_pair: Pair of records
-        method: Explanation method
 
     Returns:
-        Explanation: Placeholder explanation
+        Explanation: Placeholder SHAP explanation
     """
     fields_a = record_pair.record_a.fields
     fields_b = record_pair.record_b.fields
@@ -202,7 +199,7 @@ def _generate_placeholder_explanation(record_pair: RecordPair, method: str) -> E
         )
 
     return Explanation(
-        method=method.upper(),
+        method="SHAP",
         feature_contributions=feature_contributions,
         top_positive_features=top_positive[:5],
         top_negative_features=top_negative[:5],

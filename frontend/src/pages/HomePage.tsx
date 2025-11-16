@@ -35,7 +35,7 @@ export default function HomePage() {
         </Typography>
         <Typography variant="body1" sx={{ mb: 4, opacity: 0.8 }}>
           Identify duplicate records across datasets using state-of-the-art machine learning
-          with transparent, interpretable explanations powered by SHAP and LIME.
+          with transparent, interpretable explanations powered by SHAP.
         </Typography>
         <Box>
           <Button
@@ -115,7 +115,7 @@ export default function HomePage() {
                 Explainability
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                Understand why records match with SHAP and LIME explanations. See which
+                Understand why records match with SHAP explanations. See which
                 fields and tokens contribute most to each prediction.
               </Typography>
               <Button sx={{ mt: 2 }} variant="outlined" disabled>
@@ -206,7 +206,7 @@ export default function HomePage() {
                 4. Explainability
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                SHAP/LIME show which features drove the prediction
+                SHAP shows which features drove the prediction
               </Typography>
             </Grid>
           </Grid>

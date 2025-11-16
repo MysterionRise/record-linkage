@@ -17,24 +17,21 @@ router = APIRouter()
 async def predict_record_match(
     record_pair: RecordPair,
     include_explanation: bool = True,
-    explanation_method: str = "shap",
 ):
     """
     Predict if two records match.
 
     Args:
         record_pair: Pair of records to compare
-        include_explanation: Whether to include explainability
-        explanation_method: Method for explanation (shap or lime)
+        include_explanation: Whether to include SHAP explainability
 
     Returns:
-        MatchResult: Match prediction with optional explanation
+        MatchResult: Match prediction with optional SHAP explanation
     """
     try:
         result = await predict_match(
             record_pair,
             include_explanation=include_explanation,
-            explanation_method=explanation_method,
         )
         return result
     except Exception as e:

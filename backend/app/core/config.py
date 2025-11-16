@@ -37,7 +37,6 @@ class Settings(BaseSettings):
 
     # Explainability Settings
     SHAP_MAX_SAMPLES: int = 100
-    LIME_NUM_FEATURES: int = 10
 
     class Config:
         """Pydantic config."""

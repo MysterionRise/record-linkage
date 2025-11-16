@@ -24,7 +24,7 @@ The repository implements a **modern, ML-powered record linkage system** with an
 **Three-tier system**:
 - **Frontend**: React 18+ with TypeScript, Material-UI/Ant Design
 - **Backend**: FastAPI (Python async web framework)
-- **ML Pipeline**: BERT-based entity matching with SHAP/LIME explainability
+- **ML Pipeline**: BERT-based entity matching with SHAP explainability
 
 See [IMPLEMENTATION_PLAN.md](./IMPLEMENTATION_PLAN.md) for complete architecture details.
 
@@ -36,8 +36,7 @@ See [IMPLEMENTATION_PLAN.md](./IMPLEMENTATION_PLAN.md) for complete architecture
   - `transformers` - Hugging Face transformers library
   - `sentence-transformers` - For BERT-based embeddings
   - `torch` - PyTorch 2.x
-  - `shap` - Model explainability (primary)
-  - `lime` - Alternative explainability method
+  - `shap` - Model explainability
 - **Data**: pandas, numpy, scikit-learn, recordlinkage
 
 ### Frontend (TypeScript)
@@ -117,14 +116,11 @@ The system uses sentence-transformers with a Siamese network architecture:
 **Model**: `sentence-transformers/all-MiniLM-L6-v2` (lightweight) or `ditto-bert-base`
 
 ### Explainability
-**SHAP** (primary): Token-level attribution showing why records matched
+**SHAP**: Token-level attribution showing why records matched
 - Force plots for individual predictions
 - Feature importance aggregated by field
 - UI shows highlighted tokens (green = match evidence, red = no-match)
-
-**LIME** (complementary): Instance-level explanations
-- Top contributing features
-- Counterfactual explanations
+- Top contributing features with detailed breakdowns
 
 ### File Structure
 ```
@@ -154,7 +150,7 @@ record-linkage/
 
 **Training Pipeline**: See `backend/app/ml/training.py`
 **Inference Pipeline**: See `backend/app/ml/inference.py`
-**Explainability**: See `backend/app/ml/explainability.py`
+**SHAP Explainability**: See `backend/app/ml/explainability.py`
 
 ## Development Notes
 
@@ -186,4 +182,4 @@ Academic foundations (see README.md for full list):
 Modern approaches:
 - BERT-based entity matching (replacing traditional text/graph methods)
 - Transformer architectures for contextualized embeddings
-- SHAP/LIME for model interpretability
+- SHAP for model interpretability
