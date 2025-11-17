@@ -13,6 +13,8 @@ from app.models.schemas import (
     FeatureContribution,
 )
 from app.core.config import settings
+from app.ml.model import get_model
+from app.ml.preprocessing import serialize_record_pair
 
 
 async def predict_match(
@@ -20,7 +22,7 @@ async def predict_match(
     include_explanation: bool = True,
 ) -> MatchResult:
     """
-    Predict if two records match.
+    Predict if two records match using BERT-based entity matching.
 
     Args:
         record_pair: Pair of records to compare
@@ -29,11 +31,15 @@ async def predict_match(
     Returns:
         MatchResult: Match prediction with optional SHAP explanation
     """
-    # TODO: Implement actual model inference
-    # For now, return a placeholder result
+    # Get the BERT model
+    model = get_model()
 
-    # Placeholder: Simple string similarity
-    similarity = _compute_placeholder_similarity(record_pair)
+    # Serialize records for BERT encoding
+    # Returns tuple of (text_a, text_b) when add_sep=False
+    text_a, text_b = serialize_record_pair(record_pair, add_sep=False)
+
+    # Compute BERT-based similarity
+    similarity, embedding_a, embedding_b = model.compute_similarity(text_a, text_b)
 
     prediction = MatchPrediction(
         is_match=similarity > settings.SIMILARITY_THRESHOLD,
@@ -60,7 +66,9 @@ async def batch_predict(
     include_explanations: bool = False,
 ) -> BatchMatchResult:
     """
-    Perform batch matching between two datasets.
+    Perform batch matching between two datasets using BERT.
+
+    This implementation uses batch encoding for better performance.
 
     Args:
         dataset_a: First dataset
@@ -76,29 +84,61 @@ async def batch_predict(
     match_results = []
     matches_found = 0
 
+    # Use custom threshold or default
+    match_threshold = threshold or settings.SIMILARITY_THRESHOLD
+
+    # Get the BERT model
+    model = get_model()
+
     # Limit comparisons for demo (avoid O(n²) explosion)
     max_comparisons = 1000
     comparison_count = 0
 
+    # Prepare batch of record pairs
+    record_pairs = []
     for record_a in dataset_a:
         for record_b in dataset_b:
             if comparison_count >= max_comparisons:
                 break
-
-            record_pair = RecordPair(record_a=record_a, record_b=record_b)
-            result = await predict_match(
-                record_pair,
-                include_explanation=include_explanations,
-            )
-
-            if result.prediction.is_match:
-                matches_found += 1
-                match_results.append(result)
-
+            record_pairs.append(RecordPair(record_a=record_a, record_b=record_b))
             comparison_count += 1
-
         if comparison_count >= max_comparisons:
             break
+
+    # Batch encode all pairs for efficiency
+    text_pairs = []
+    for record_pair in record_pairs:
+        text_a, text_b = serialize_record_pair(record_pair, add_sep=False)
+        text_pairs.append((text_a, text_b))
+
+    # Compute similarities in batch
+    similarities = model.predict_batch(text_pairs)
+
+    # Process results
+    for i, (record_pair, similarity) in enumerate(zip(record_pairs, similarities)):
+        is_match = similarity >= match_threshold
+
+        prediction = MatchPrediction(
+            is_match=is_match,
+            match_probability=similarity,
+            confidence=_get_confidence_level(similarity),
+            similarity_score=similarity,
+        )
+
+        explanation = None
+        if include_explanations and is_match:
+            # Only generate explanations for matches to save time
+            explanation = _generate_placeholder_explanation(record_pair)
+
+        result = MatchResult(
+            prediction=prediction,
+            explanation=explanation,
+            record_pair=record_pair,
+        )
+
+        if is_match:
+            matches_found += 1
+            match_results.append(result)
 
     processing_time = time.time() - start_time
 
